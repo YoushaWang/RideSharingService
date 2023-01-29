@@ -24,9 +24,9 @@ def signup(request):
         drive=request.POST.getlist('drive')         
         license_num=request.POST['license_num']         
         license_plate=request.POST['license_plate']         
-        car_type=request.POST['car_type']         
         car_brand=request.POST['car_brand']         
         capacity=request.POST['capacity']
+        car_type=request.POST['car_type']
         agree=request.POST.getlist('agree') 
         if drive==["on"]:
             driver=True
@@ -41,12 +41,17 @@ def signup(request):
                     messages.info(request,'Username has existed. Try again.')
                     return redirect("signup")
                 else:
-                    if driver==True:
-                        account=Account.objects.create(drive=driver,username=username,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,car_type=car_type,license_plate=license_plate,car_brand=car_brand,capacity=capacity)
-                    else:
-                        account=Account.objects.create(drive=driver,username=username,email=email,first_name=firstname,last_name=lastname,password=password)
                     user=User.objects.create_user(username=username,email=email,password=password,first_name=firstname,last_name=lastname)
                     user.save()
+                    curr = User.objects.get(username = username)
+                    # if driver==True:
+                    if driver==False:
+                        capacity=0
+                    account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
+                    # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
+                    # else:
+                    #     account=Account.objects.create(user=curr,drive=driver,email=email,first_name=firstname,last_name=lastname,password=password)
+                    
                     auth.login(request, user)
                     return redirect("main")
             else:
