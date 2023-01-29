@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static  'style.css' %}" />
+</head>
+
+<body>
+  <!-- HEAD -->
+    <div style="width:100%;height: 100px;" >
+    <h1>RideSharingService</h1>
+    <h2>Profile</h2>
+    </div>
+
+    <!-- MAIN -->
+    <div>
+      {% for message in messages %}
+      <h5>{{message}}</h5>
+      {% endfor %}
+    </div>
+    <div>
+      <br>
+      <a>{{request.user}}--</a>
+      <a class="button" href="/logout">Logout</a>
+      <a href="\main">Main Page</a>
+  </div> 
+
+    <!-- <form action="" method="POST">
+      {% csrf_token %}
+      <div class="block">
+        <br><label for="fname">Username: </label>
+        <label for="fname">{{curr}}</label>
+      </div>
+    </form> -->
+
+
+    <div style="display:default" id="showTable">
+      <table class="block" >
+        <h4>Personal Info:</h4>
+        <tr>
+          <th>Username:</th>
+          <td>{{curr}}</td>
+        </tr>
+        <tr>
+          <th>Email:</th>  
+          <td>{{curr.email}}</td>      
+        </tr>  
+        <tr>
+          <th>Tel:</th>  
+          <td>{{curr.tel}}</td>      
+        </tr> 
+        <tr>
+          <th>First Name:</th>  
+          <td>{{curr.first_name}}</td>      
+        </tr>  
+        <tr>
+          <th>Last Name:</th>  
+          <td>{{curr.last_name}}</td>      
+        </tr> 
+        <tr>
+          <th>Password:</th>  
+          <!-- need to change -->
+          <td>********</td>
+          <!-- <td>{{curr.password}}</td>       -->
+        </tr>  
+        <tr>
+          <th>Driver:</th>  
+          <td>{{curr.drive}}</td>      
+        </tr>  
+      </table>
+  
+      <table class="block" >
+        <h4>Driver Info:</h4>
+        <tr>
+          <th>License num:</th>  
+          <td>{{curr.license_num}}</td>      
+        </tr>  
+        <tr>
+          <th>License plate:</th>  
+          <td>{{curr.license_plate}}</td>      
+        </tr>  
+        <tr>
+          <th>Car Type:</th>  
+          <td>{{curr.car_type}}</td>      
+        </tr>  
+        <tr>
+          <th>Car brand:</th>  
+          <td>{{curr.car_brand}}</td>      
+        </tr>  
+        <tr>
+          <th>Capacity:</th>  
+          <td>{{curr.capacity}}</td>      
+        </tr>  
+      </table>
+    </div>
+    <a href="\editprofile"> Edit </a>
+    <!-- <button onclick="myfun()">Edit</button> -->
+    <!-- <script>
+      // var showTable = document.getElementById("showTable");
+      function myfun(){
+        // showTable.style.display = "none";
+        // window.location.href=
+      }
+    </script> -->
+</body>
+
+</html>

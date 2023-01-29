@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{% static  'style.css' %}" />
+</head>
+
+<body>
+  <!-- HEAD -->
+    <div style="width:100%;height: 100px;" >
+    <h1>RideSharingService</h1>
+    <h2>Login</h2>
+    </div>
+
+    <!-- MAIN -->
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="block">
+        <br><label for="fname">Username:</label>
+        <input type="text" name="username" style="border: 1px solid #d3d5d8 !important;">
+        <br><label for="fname">Password:</label>
+        <input type="password" name="password" style="border: 1px solid #d3d5d8 !important;">
+      </div><br>
+
+      <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Log In</button>
+      <div class="text-center mt-5 space-x-2">
+          <p class="text-base"> No account? <a href="\signup"> Sign up </a></p>
+      </div>
+    </form>
+
+</body>
+
+</html>

@@ -31,12 +31,14 @@ ALLOWED_HOSTS = ['vcm-30336.vm.duke.edu','127.0.0.1','web']
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'phone_field',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ ROOT_URLCONF = 'RideWeb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/"templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,13 +85,22 @@ DATABASES = {
     'default': {
     # 'ENGINE': 'django.db.backends.postgresql_psycopg2', 
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'postgres',#mydatabase
-    'USER': 'postgres',
-    'PASSWORD': 'Wys@2023',
-    'HOST': '127.0.0.1',
-    # 'HOST': 'db',
+    'NAME': 'qjppwxnd',#mydatabase
+    'USER': 'qjppwxnd',
+    'PASSWORD': '6LmuhsimbtQJO-xHuFX_dK_dXMGo7Fy2',
+    'HOST': 'castor.db.elephantsql.com',
     'PORT': 5432,
     }
+    # 'default': {
+    # # 'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+    # 'ENGINE': 'django.db.backends.postgresql',
+    # 'NAME': 'postgres',#mydatabase
+    # 'USER': 'postgres',
+    # 'PASSWORD': 'Wys@2023',
+    # 'HOST': '127.0.0.1',
+    # # 'HOST': 'db',
+    # 'PORT': 5432,
+    # }
 }
 
 # Password validation
@@ -116,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
@@ -127,8 +138,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = "/"

@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static  'style.css' %}" />
+</head>
+
+<body>
+  <!-- HEAD -->
+    <div style="width:100%;height: 100px;" >
+    <h1>RideSharingService</h1>
+    <h2>Edit Profile</h2>
+    </div>
+  <!-- MAIN -->
+  <div>
+    {% for message in messages %}
+    <h5>{{message}}</h5>
+    {% endfor %}
+  </div>
+  <div>
+    <br>
+    <a>{{request.user}}--</a>
+    <a class="button" href="/logout">Logout</a>
+    <a href="\main">Main Page</a>
+</div> 
+<p>User</p>
+  <!-- <form >
+    <div class="block">
+      <br><label for="fname">Username: </label>
+      <label for="fname">{{curr}}</label>
+    </div>
+  </form> -->
+  <form action="" method="POST" >
+      {% csrf_token %}
+      <table id="table1" class="block" style="display: inline-table" style="width:100%" >
+          <h4>Personal Info:</h4>
+          <tr>
+            <th>Username:</th>
+            <!-- <td><input type="text" name="username" default={{curr}} placeholder={{curr}}></td> -->
+            <td>{{curr}}</td>
+          </tr>
+          <tr>
+            <th>Email:</th>  
+            <td><input type="email" name="email" value="{{curr.email}}"></td>      
+          </tr>  
+          <tr>
+            <th>Tel:</th>  
+            <td><input type="tel" name="tel" value="{{curr.tel}}"></td>      
+          </tr>  
+          <tr>
+            <th>First Name:</th>  
+            <td><input type="text" name="first name" value="{{curr.first_name}}"></td>      
+          </tr>  
+          <tr>
+            <th>Last Name:</th>  
+            <td><input type="text" name="last name" value="{{curr.last_name}}"></td>      
+          </tr> 
+          <tr>
+            <th>Current Password:</th>  
+            <!-- placeholder={{curr.password}} -->
+            <td><input type="password" name="password0" placeholder="********"></td>      
+          </tr>  
+          <tr>
+              <th>New Password:</th>  
+              <td><input type="password" name="password" ></td>      
+          </tr>
+          <tr>
+              <th>Comfirm Password:</th>  
+              <td><input type="password" name="password2" ></td>      
+          </tr>
+          <tr>
+            <th>Driver:</th>  
+            <td><label id="driveText">{{curr.drive}}</label></td>
+            <!-- <td><input type="text" name="drive" id="driveText" placeholder={{curr.drive}}></td> -->
+            <!-- <td><input type="text" name="drive" placeholder={{curr.drive}}></td>       -->
+          </tr>  
+      </table>
+
+      <table id="table2" class="block" style="display: inline-table" >
+          <h4>Driver Info:</h4>
+          <a>Are you still a driver:</a>
+          <input type="checkbox" name="drive" id="myCheck" onclick="myfun()">
+          <br><tr>
+            <th>License num:</th>  
+            <td><input type="text" id="option1" style="display:default" name="license_num" value="{{curr.license_num}}"></td>      
+          </tr>  
+          <tr>
+            <th>License plate:</th>  
+            <td><input type="text" id="option3" style="display:default" name="license_plate" value="{{curr.license_plate}}"></td>      
+          </tr>  
+          <tr>
+            <th>Car Type:</th>  
+            <!-- <td><input type="text" id="option5" style="display:default" name="car_type" value="{{curr.car_type}}"></td>       -->
+            <td><select  name="car_type" id="myselect">
+              <option value="SUV" >SUV</option>
+              <option value="COMPACT">COMPACT</option>
+              <option value="COMFORT">COMFORT</option>
+              <option value="GREEN">GREEN</option>
+              <option value="PREMIER">PREMIER</option>
+            </select></td>
+          </tr>  
+          <tr>
+            <th>Car brand:</th>  
+            <td><input type="text" id="option7" style="display:default" name="car_brand" value="{{curr.car_brand}}"></td>      
+          </tr>  
+          <tr>
+            <th>Capacity:</th>  
+            <td><input type="number" id="option9" style="display:default" name="capacity" value="{{curr.capacity}}"></td>      
+          </tr>  
+        </table>
+        <br>
+        <button type="submit" >Save</button>
+  </form>
+  <!-- <a href="\profile"> Save </a> -->
+
+</body>
+<script>
+function myfun(){
+  var checkBox = document.getElementById("myCheck");
+  var driveInfo = document.getElementById("table2");
+  var driveText = document.getElementById("driveText");
+  if (checkBox.checked == true){
+    // driveInfo.style.display="none";
+    driveText.innerHTML="True";
+  }else{
+    // driveInfo.style.display="inline-table";
+    driveText.innerHTML="False";
+  }
+}
+</script>
+</html>
