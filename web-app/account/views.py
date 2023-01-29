@@ -94,6 +94,7 @@ def editprofile(request):
     # return render(request,'edit.html')
     if request.method == 'POST':
         curr=Account.objects.filter(username=request.user).first()
+        currUser=request.user
         #basic info
         username=curr.username
         email=request.POST['email']
@@ -118,7 +119,7 @@ def editprofile(request):
         else:
             driver=False
         #basic info
-        curr.username=username
+        # curr.username=username
         curr.email=email
         curr.tel=tel
         curr.first_name=first_name
@@ -141,6 +142,7 @@ def editprofile(request):
             if password==password2:
                 # messages.info(request,"right")
                 curr.password=password
+                currUser.set_password(password)
             else:
                 messages.info(request,"Two passwords not matching")
                 return redirect("editprofile")
@@ -149,11 +151,11 @@ def editprofile(request):
             messages.info(request,"Old password not correct.Please try again.")
             return redirect("editprofile")
         curr.save()
-
-        # Pa$$w0rd!
-        # if curr.password==password0:
-        #     messages.info(request,'good')
-            # return redirect("editprofile")
+        currUser.email=email
+        currUser.first_name=first_name
+        currUser.last_name=last_name
+        currUser.save()
+        messages.info(request,"Success!")
         return redirect("profile")
     else:
         curr=Account.objects.filter(username=request.user).first()
