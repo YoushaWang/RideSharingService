@@ -22,13 +22,13 @@ def signup(request):
         lastname=request.POST['last name']
         password=request.POST['password']
         password2=request.POST['password2']
-        drive=request.POST.getlist('drive')         
-        license_num=request.POST['license_num']         
-        license_plate=request.POST['license_plate']         
-        car_brand=request.POST['car_brand']         
+        drive=request.POST.getlist('drive')
+        license_num=request.POST['license_num']
+        license_plate=request.POST['license_plate']
+        car_brand=request.POST['car_brand']
         capacity=request.POST['capacity']
         car_type=request.POST['car_type']
-        agree=request.POST.getlist('agree') 
+        agree=request.POST.getlist('agree')
         if drive==["on"]:
             driver=True
         else:
@@ -52,7 +52,7 @@ def signup(request):
                     # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
                     # else:
                     #     account=Account.objects.create(user=curr,drive=driver,email=email,first_name=firstname,last_name=lastname,password=password)
-                    
+
                     auth.login(request, user)
                     return redirect("main")
             else:
@@ -114,11 +114,11 @@ def editprofile(request):
         #   comfirm password
         password2=request.POST['password2']
         #driver info
-        drive=request.POST.getlist('drive')         
-        license_num=request.POST['license_num']         
-        license_plate=request.POST['license_plate']         
-        car_type=request.POST['car_type']         
-        car_brand=request.POST['car_brand']         
+        drive=request.POST.getlist('drive')
+        license_num=request.POST['license_num']
+        license_plate=request.POST['license_plate']
+        car_type=request.POST['car_type']
+        car_brand=request.POST['car_brand']
         capacity=request.POST['capacity']
         if drive==["on"]:
             driver=True
@@ -192,30 +192,12 @@ def riderequest(request):
         if special_request in [None, '']:
             special_request=curr.special_request
 
-        # # new password
-        # password=request.POST['password']
-        # # comfirm password
-        # password2=request.POST['password2']
-        # drive=request.POST.getlist('drive')
-        # license_num=request.POST['license_num']
-        # license_plate=request.POST['license_plate']
-        # insurance=request.POST['insurance']
-        # car_brand=request.POST['car_brand']
-        # capacity=request.POST['capacity']
-        # if drive==["on"]:
-        #     driver=True
-        # else:
-        #     driver=False
         curr.destination_address=destination_address
         curr.required_arrival_time=required_arrival_time
         curr.total_passenger_number=total_passenger_number
         curr.vehicle_type=vehicle_type
         curr.special_request=special_request
         curr.save()
-        # Pa$$w0rd!
-        # if curr.password==password0:
-        #     messages.info(request,'good')
-        # return redirect("editprofile")
 
         return redirect("riderequest")
     else:
