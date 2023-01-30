@@ -21,14 +21,14 @@ def signup(request):
         lastname=request.POST['last name']
         password=request.POST['password']
         password2=request.POST['password2']
-        drive=request.POST.getlist('drive')         
-        license_num=request.POST['license_num']         
-        license_plate=request.POST['license_plate']         
-        car_brand=request.POST['car_brand']         
+        drive=request.POST.getlist('drive')
+        license_num=request.POST['license_num']
+        license_plate=request.POST['license_plate']
+        car_brand=request.POST['car_brand']
         capacity=request.POST['capacity']
 
         car_type=request.POST['car_type']
-        agree=request.POST.getlist('agree') 
+        agree=request.POST.getlist('agree')
         if drive==["on"]:
             driver=True
         else:
@@ -119,11 +119,11 @@ def editprofile(request):
         #   comfirm password
         password2=request.POST['password2']
         #driver info
-        drive=request.POST.getlist('drive')         
-        license_num=request.POST['license_num']         
-        license_plate=request.POST['license_plate']         
-        car_type=request.POST['car_type']         
-        car_brand=request.POST['car_brand']         
+        drive=request.POST.getlist('drive')
+        license_num=request.POST['license_num']
+        license_plate=request.POST['license_plate']
+        car_type=request.POST['car_type']
+        car_brand=request.POST['car_brand']
         capacity=request.POST['capacity']
         if drive==["on"]:
             driver=True
