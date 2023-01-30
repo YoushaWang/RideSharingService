@@ -3,7 +3,7 @@ from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Account
+from .models import Account,Driver,UserDetail,Ride
 
 # Create your views here.
 
@@ -26,12 +26,14 @@ def signup(request):
         license_plate=request.POST['license_plate']         
         car_brand=request.POST['car_brand']         
         capacity=request.POST['capacity']
+
         car_type=request.POST['car_type']
         agree=request.POST.getlist('agree') 
         if drive==["on"]:
             driver=True
         else:
             driver=False
+            capacity=0
         if agree==["on"]:
             if password == password2:
                 if User.objects.filter(email=email).exists():
@@ -43,16 +45,21 @@ def signup(request):
                 else:
                     user=User.objects.create_user(username=username,email=email,password=password,first_name=firstname,last_name=lastname)
                     user.save()
-                    curr = User.objects.get(username = username)
+                    # account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
+                    # account=Account.objects.create(user_name=user)
+                    userDetail=UserDetail(username=user,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
+                    userDetail.save()
+                    auth.login(request, user)
+                    # curr = User.objects.get(username = username)
+                    # account=Account.objects.create(user_name='username',email=email,password=password,first_name=firstname,last_name=lastname,capacity=capacity)
+                    
                     # if driver==True:
-                    if driver==False:
-                        capacity=0
-                    account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
+                    
+                    # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
+                    # account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
                     # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
                     # else:
                     #     account=Account.objects.create(user=curr,drive=driver,email=email,first_name=firstname,last_name=lastname,password=password)
-                    
-                    auth.login(request, user)
                     return redirect("main")
             else:
                 messages.info(request,'Two passwords not matching')
@@ -60,7 +67,6 @@ def signup(request):
         else:
             messages.info(request,'Please read Terms and Conditions')
             return redirect("signup")
-
     else:
         return render(request,'signup.html')
 
@@ -91,14 +97,14 @@ def main(request):
 
 @login_required(login_url='loginPage')
 def profile(request):
-    curr=Account.objects.filter(username=request.user).first()
+    curr=UserDetail.objects.filter(username=request.user).first()
     return render(request,'profile.html',{'curr':curr})
 
 @login_required(login_url='loginPage')
 def editprofile(request):
     # return render(request,'edit.html')
     if request.method == 'POST':
-        curr=Account.objects.filter(username=request.user).first()
+        curr=UserDetail.objects.filter(username=request.user).first()
         currUser=request.user
         #basic info
         username=curr.username
@@ -163,8 +169,44 @@ def editprofile(request):
         messages.info(request,"Success!")
         return redirect("profile")
     else:
-        curr=Account.objects.filter(username=request.user).first()
+        curr=UserDetail.objects.filter(username=request.user).first()
         return render(request,'edit.html',{'curr':curr})
 
+def terms_and_conditions(request):
+    return render(request,'term.html')
 
+@login_required(login_url='loginPage')
+def driver_request_ride(request):
+    return render(request,'driver_request_ride.html')
 
+@login_required(login_url='loginPage')
+def rider_request_ride(request):
+    if request.method == 'POST':
+        owner = request.user
+        rider_num=request.POST['rider_num']
+        share=request.POST.getlist('share')
+        if share==["on"]:
+            ifshare=True
+        else:
+            ifshare=False
+        pickup=request.POST['pickup']
+        whereto=request.POST['whereto']
+        schedule=request.POST['schedule']
+        extraInfo=request.POST['extraInfo']
+        car_type=request.POST['car_type']
+        status="OPEN"
+        ride=Ride(owner=owner,rider_num=rider_num,ifShare=ifshare,pickup=pickup,
+            whereto=whereto, schedule=schedule,extraInfo=extraInfo,car_type=car_type,status=status)
+        ride.save()
+        messages.info(request,"Success!")
+        return redirect("main")
+    else:
+        return render(request,'rider_request_ride.html')
+
+@login_required(login_url='loginPage')
+def driver_open_ride(request):
+    return render(request,'driver_open_ride.html')
+
+@login_required(login_url='loginPage')
+def driver_confirmed_ride(request):
+    return render(request,'driver_confirmed_ride.html')

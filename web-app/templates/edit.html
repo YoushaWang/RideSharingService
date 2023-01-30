@@ -40,7 +40,7 @@
           <tr>
             <th>Username:</th>
             <!-- <td><input type="text" name="username" default={{curr}} placeholder={{curr}}></td> -->
-            <td>{{curr}}</td>
+            <td>{{curr.username}}</td>
           </tr>
           <tr>
             <th>Email:</th>  
@@ -95,11 +95,14 @@
             <th>Car Type:</th>  
             <!-- <td><input type="text" id="option5" style="display:default" name="car_type" value="{{curr.car_type}}"></td>       -->
             <td><select  name="car_type" id="myselect">
+              <option value="NONE">{{curr.car_type}}</option>
+              <!-- <option value="NONE" selected disabled hidden>---</option>     -->
               <option value="SUV" >SUV</option>
               <option value="COMPACT">COMPACT</option>
               <option value="COMFORT">COMFORT</option>
               <option value="GREEN">GREEN</option>
               <option value="PREMIER">PREMIER</option>
+              <option value="NONE" >NONE</option>
             </select></td>
           </tr>  
           <tr>

@@ -52,9 +52,11 @@
           <br><label id="option6" style="display:none">Car brand:</label>
           <input type="text" id="option7" style="display:none" name="car_brand" style="border: 1px solid #000000 !important;">  
           <br><label id="option8" style="display:none">Capacity:</label>
-          <input type="number" id="option9" style="display:none" name="capacity" style="border: 1px solid #000000 !important;">  
+          <input type="number" id="option9" style="display:none" max="10" name="capacity" value=0 style="border: 1px solid #000000 !important;">  
           <br><label id="option4" style="display:none">Car Type:</label>
           <select hidden name="car_type" id="myselect">
+            <option value="NONE" >NONE</option>
+            <!-- <option value="NONE" selected disabled hidden>---</option> -->
             <option value="SUV" >SUV</option>
             <option value="COMPACT">COMPACT</option>
             <option value="COMFORT">COMFORT</option>
@@ -64,7 +66,7 @@
 
           <br><input type="checkbox" id="checkbox1" name="agree"> 
           <label for="checkbox1">I Agree </label>
-          <a href="#"> Terms and Conditions</a>
+          <a href="\terms_and_conditions"> Terms and Conditions</a>
         </div>
       <br>
       <button type="submit" >Sign Up</button>

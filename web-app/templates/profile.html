@@ -38,11 +38,12 @@
 
 
     <div style="display:default" id="showTable">
+      {% csrf_token %}
       <table class="block" >
         <h4>Personal Info:</h4>
         <tr>
           <th>Username:</th>
-          <td>{{curr}}</td>
+          <td>{{curr.username}}</td>
         </tr>
         <tr>
           <th>Email:</th>  
@@ -72,7 +73,7 @@
         </tr>  
       </table>
   
-      <table class="block" >
+      <table class="block" id="drivInfo">
         <h4>Driver Info:</h4>
         <tr>
           <th>License num:</th>  
@@ -84,7 +85,7 @@
         </tr>  
         <tr>
           <th>Car Type:</th>  
-          <td>{{curr.car_type}}</td>      
+          <td>{{curr.car_type}}</td>
         </tr>  
         <tr>
           <th>Car brand:</th>  
@@ -92,19 +93,19 @@
         </tr>  
         <tr>
           <th>Capacity:</th>  
-          <td>{{curr.capacity}}</td>      
+          <td>{{curr.capacity}}</td>
         </tr>  
       </table>
     </div>
     <a href="\editprofile"> Edit </a>
     <!-- <button onclick="myfun()">Edit</button> -->
-    <!-- <script>
-      // var showTable = document.getElementById("showTable");
-      function myfun(){
+    <script>
+      // var drivInfo = document.getElementById("drivInfo");
+      // function myfun(){
         // showTable.style.display = "none";
         // window.location.href=
-      }
-    </script> -->
+      // }
+    </script>
 </body>
 
 </html>

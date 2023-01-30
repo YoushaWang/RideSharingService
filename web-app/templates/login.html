@@ -14,7 +14,11 @@
     <h1>RideSharingService</h1>
     <h2>Login</h2>
     </div>
-
+    <div>
+      {% for message in messages %}
+      <h5>{{message}}</h5>
+      {% endfor %}
+    </div>
     <!-- MAIN -->
     <form action="" method="POST">
       {% csrf_token %}
