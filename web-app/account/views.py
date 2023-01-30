@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Account
+from .models import RideRequest
 
 # Create your views here.
 
@@ -160,6 +161,62 @@ def editprofile(request):
     else:
         curr=Account.objects.filter(username=request.user).first()
         return render(request,'edit.html',{'curr':curr})
+
+@login_required(login_url='loginPage')
+def riderequest(request):
+    if request.method == 'POST':
+        curr=RideRequest.objects  #从数据库中取出部分数据
+
+        destination_address=request.POST['destination_address']
+        if destination_address in [None, '']:
+            destination_address=curr.destination_address
+
+        required_arrival_time=request.POST['required_arrival_time']
+        if required_arrival_time in [None, '']:
+            required_arrival_time=curr.required_arrival_time
+
+        total_passenger_number=request.POST['total_passenger_number']
+        if total_passenger_number in [None, '']:
+            total_passenger_number=curr.total_passenger_number
+
+        vehicle_type=request.POST['vehicle_type']
+        if vehicle_type in [None, '']:
+            vehicle_type=curr.vehicle_type
+
+        special_request=request.POST['special_request']
+        if special_request in [None, '']:
+            special_request=curr.special_request
+
+        # # new password
+        # password=request.POST['password']
+        # # comfirm password
+        # password2=request.POST['password2']
+        # drive=request.POST.getlist('drive')
+        # license_num=request.POST['license_num']
+        # license_plate=request.POST['license_plate']
+        # insurance=request.POST['insurance']
+        # car_brand=request.POST['car_brand']
+        # capacity=request.POST['capacity']
+        # if drive==["on"]:
+        #     driver=True
+        # else:
+        #     driver=False
+        curr.destination_address=destination_address
+        curr.required_arrival_time=required_arrival_time
+        curr.total_passenger_number=total_passenger_number
+        curr.vehicle_type=vehicle_type
+        curr.special_request=special_request
+        curr.save()
+        # Pa$$w0rd!
+        # if curr.password==password0:
+        #     messages.info(request,'good')
+        # return redirect("editprofile")
+
+        return redirect("riderequest")
+    else:
+        curr=RideRequest.objects
+        return render(request,'riderequest.html',{'curr':curr})
+
 
 
 

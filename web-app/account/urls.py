@@ -14,4 +14,5 @@ urlpatterns = [
     path('main/',views.main,name='main'),
     path('profile/',views.profile,name='profile'),
     path('editprofile/',views.editprofile,name='editprofile'),
+    path('riderequest/',views.riderequest,name='riderequest')
 ]
