@@ -18,6 +18,7 @@
             <a>{{request.user}}--</a>
             <a class="button" href="/logout">Logout</a>
             <a href="\profile">Profile</a>
+            <a href="\main">Main Page</a>
         </div>   
         <br><br>
         <div>
@@ -25,9 +26,39 @@
         <h5>{{message}}</h5>
         {% endfor %}
         </div>
-
-        
-
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table border="1" style="margin-left:auto;margin-right:auto;">
+                <h4>Your comfirmed rides.</h4>
+                <tr>
+                    <!-- <th>No.</th> -->
+                    <th>id</th>
+                    <th>Schedule</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Car type</th>
+                    <th>People num</th>
+                    <th>status</th>
+                    <th>driver</th>
+                    <th>  </th>
+                </tr>
+                {% for r in comfirm_ride %}
+                <tr>
+                    <th><input type="hidden" value="{{r.id}}" name="order">{{r.id}}</th>
+                    <th>{{r.schedule}}</th>
+                    <th>{{r.pickup}}</th>
+                    <th>{{r.whereto}}</th>
+                    <th>{{r.car_type}}</th>
+                    <th>{{r.capacity}}</th>
+                    <th>{{r.status}}</th>
+                    <th>{{r.driver}}</th>
+                    <th><button type="submit" >Detail</button></th>
+                    
+                </tr>
+                {% endfor %}
+                
+            </table>
+        </form>
 </body>
 
 </html>

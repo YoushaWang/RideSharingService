@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Account,Driver,UserDetail,Ride
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -210,7 +211,6 @@ def driver_open_ride(request):
     else:
         if request.method == 'POST':
             order_id=request.POST['order']
-            # return HttpResponse(order)
             # return render(request,'order_detail.html',{'r':r})
             request.session['order_id']=order_id
             return redirect("order_detail")
@@ -226,7 +226,13 @@ def driver_confirmed_ride(request):
         messages.info(request,"You cannot access to driver's page")
         return redirect("main")
     else:
-        return render(request,'driver_confirmed_ride.html')
+        if request.method == 'POST':
+            order_id=request.POST['order']
+            request.session['order_id']=order_id
+            return redirect("order_detail")
+        else:
+            comfirm_ride=Ride.objects.filter(status="COMFIRM",driver=curr).all()
+            return render(request,'driver_confirmed_ride.html',{'comfirm_ride':comfirm_ride})
 
 @login_required(login_url='loginPage')
 def order_detail(request):
@@ -235,6 +241,7 @@ def order_detail(request):
     if request.method == 'POST':
         #comfirm order
         r.status="COMFIRM"
+        r.driver=request.user.username
         r.save()
         return render(request,'order_detail.html',{'r':r})
     else:
