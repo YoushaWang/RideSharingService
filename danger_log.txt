@@ -5,3 +5,6 @@ Can edit first name, last name, password for account, But not related to User.
 special info could be disable or pets. haven't added.
 edit profile, the default button for ifdriver.
 when add sharer info, need to add capacity
+1.31
+All form about ride in driver part not have turn the page. 
+If the data-base is very huge, it is hard to find a order. Besides, ride has no ordering.

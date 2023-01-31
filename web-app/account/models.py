@@ -65,7 +65,7 @@ class Ride(models.Model):
     #status
     status=models.CharField(max_length = 20, choices = STATUS, default = 'OPEN')
     def __str__(self):
-        return self.owner.username
+        return self.id
     
 
 

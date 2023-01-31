@@ -194,7 +194,7 @@ def rider_request_ride(request):
         extraInfo=request.POST['extraInfo']
         car_type=request.POST['car_type']
         status="OPEN"
-        ride=Ride(owner=owner,rider_num=rider_num,ifShare=ifshare,pickup=pickup,
+        ride=Ride(owner=owner,rider_num=rider_num,ifShare=ifshare,pickup=pickup,capacity=capacity,
             whereto=whereto, schedule=schedule,extraInfo=extraInfo,car_type=car_type,status=status)
         ride.save()
         messages.info(request,"Success!")
