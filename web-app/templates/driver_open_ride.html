@@ -36,11 +36,9 @@
                     <th>To</th>
                     <th>Car type</th>
                     <th>owner</th>
-                    <th>Rider num</th>
-                    <th>ifShare</th>
-                    <th>Sharer</th>
-                    <th>Sharer num</th>
+                    <th>People num</th>
                     <th>status</th>
+                    <th>  </th>
                 </tr>
                 {% for r in open_ride %}
                 <tr>
@@ -49,11 +47,9 @@
                     <th>{{r.whereto}}</th>
                     <th>{{r.car_type}}</th>
                     <th>{{r.owner.username}}</th>
-                    <th>{{r.rider_num}}</th>
-                    <th>{{r.ifShare}}</th>
-                    <th>{{r.sharer}}</th>
-                    <th>{{r.sharer_num}}</th>
+                    <th>{{r.capacity}}</th>
                     <th>{{r.status}}</th>
+                    <th><input type="button">Detail</input></th>
                 </tr>
                 {% endfor %}
                 
@@ -63,5 +59,10 @@
         
 
 </body>
+<script>
+    // function myfun(){
+    //     document.write(r.username);
+    // }   
+</script>
 
 </html>

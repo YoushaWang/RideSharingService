@@ -49,6 +49,7 @@ class Ride(models.Model):
     #basic info
     owner = models.ForeignKey(User, on_delete=models.CASCADE,default="")
     rider_num=models.PositiveIntegerField(default=1)
+    capacity=models.PositiveIntegerField(default=1)
     #added info
     driver = models.CharField(max_length=20,null=True,default="")
     #share info

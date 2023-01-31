@@ -181,6 +181,7 @@ def rider_request_ride(request):
     if request.method == 'POST':
         owner = request.user
         rider_num=request.POST['rider_num']
+        capacity=rider_num
         share=request.POST.getlist('share')
         if share==["on"]:
             ifshare=True
@@ -208,7 +209,7 @@ def driver_open_ride(request):
         return redirect("main")
     else:
         # doing things here
-
+        open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__gte=curr.capacity).all()
         return render(request,'driver_open_ride.html',{'open_ride':open_ride})
 
 @login_required(login_url='loginPage')
