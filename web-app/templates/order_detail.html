@@ -30,39 +30,55 @@
         <form action="" method="POST">
             {% csrf_token %}
             <table border="1" style="margin-left:auto;margin-right:auto;">
-                <h4>Here are open rides.</h4>
+                <h4>Here are order details.</h4>
                 <tr>
                     <!-- <th>No.</th> -->
                     <th>id</th>
-                    <th>Schedule</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Car type</th>
-                    <th>owner</th>
-                    <th>People num</th>
-                    <th>status</th>
-                    <th>  </th>
+                    <td><input type="hidden" value="{{r.id}}" name="order">{{r.id}}</td>
                 </tr>
-                {% for r in open_ride %}
                 <tr>
-                    <th><input type="hidden" value="{{r.id}}" name="order">{{r.id}}</th>
-                    <th>{{r.schedule}}</th>
-                    <th>{{r.pickup}}</th>
-                    <th>{{r.whereto}}</th>
-                    <th>{{r.car_type}}</th>
-                    <th>{{r.owner.username}}</th>
-                    <th>{{r.capacity}}</th>
-                    <th>{{r.status}}</th>
-                    <th><button type="submit" >Detail</button></th>
-                    
+                    <th>Schedule</th>
+                    <td>{{r.schedule}}</td>
                 </tr>
-                {% endfor %}
-                
+                <tr>
+                    <th>From</th>
+                    <td>{{r.pickup}}</td>
+                </tr>
+                <tr>
+                    <th>To</th>
+                    <td>{{r.whereto}}</td>
+                </tr>
+                <tr>
+                    <th>Car type</th>
+                    <td>{{r.car_type}}</td>
+                </tr>
+                <tr>
+                    <th>owner</th>
+                    <td>{{r.owner.username}}</td>
+                </tr>
+                <tr>
+                    <th>ifShare</th>
+                    <td>{{r.ifShare}}</td>
+                </tr>
+                <tr>
+                    <th>sharer</th>
+                    <td>{{r.sharer}}</td>
+                </tr>
+                <tr>
+                    <th>People num</th>
+                    <td>{{r.capacity}}</td>
+                </tr>
+                <tr>
+                    <th>status</th>
+                    <td>{{r.status}}</td>
+                </tr>
+                <tr>
+                    <th>Extra Info</th>
+                    <td>{{r.extraInfo}}</td>
+                </tr>
             </table>
+            <br><button type="submit" >Comfirm</button>
         </form>
-
-        
-
 </body>
 <script>
     // function myfun(){

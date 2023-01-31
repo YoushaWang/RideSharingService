@@ -208,9 +208,16 @@ def driver_open_ride(request):
         messages.info(request,"You cannot access to driver's page")
         return redirect("main")
     else:
-        # doing things here
-        open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__gte=curr.capacity).all()
-        return render(request,'driver_open_ride.html',{'open_ride':open_ride})
+        if request.method == 'POST':
+            order_id=request.POST['order']
+            # return HttpResponse(order)
+            # return render(request,'order_detail.html',{'r':r})
+            request.session['order_id']=order_id
+            return redirect("order_detail")
+        else:
+            # doing things here
+            open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__lte=curr.capacity).all()
+            return render(request,'driver_open_ride.html',{'open_ride':open_ride})
 
 @login_required(login_url='loginPage')
 def driver_confirmed_ride(request):
@@ -220,3 +227,15 @@ def driver_confirmed_ride(request):
         return redirect("main")
     else:
         return render(request,'driver_confirmed_ride.html')
+
+@login_required(login_url='loginPage')
+def order_detail(request):
+    order_id=request.session['order_id']
+    r=Ride.objects.filter(id=order_id).first()
+    if request.method == 'POST':
+        #comfirm order
+        r.status="COMFIRM"
+        r.save()
+        return render(request,'order_detail.html',{'r':r})
+    else:
+        return render(request,'order_detail.html',{'r':r})
