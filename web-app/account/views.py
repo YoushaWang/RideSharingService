@@ -175,9 +175,6 @@ def editprofile(request):
 def terms_and_conditions(request):
     return render(request,'term.html')
 
-@login_required(login_url='loginPage')
-def driver_request_ride(request):
-    return render(request,'driver_request_ride.html')
 
 @login_required(login_url='loginPage')
 def rider_request_ride(request):
@@ -205,8 +202,20 @@ def rider_request_ride(request):
 
 @login_required(login_url='loginPage')
 def driver_open_ride(request):
-    return render(request,'driver_open_ride.html')
+    curr=UserDetail.objects.filter(username=request.user).first()
+    if curr.drive==False:
+        messages.info(request,"You cannot access to driver's page")
+        return redirect("main")
+    else:
+        # doing things here
+
+        return render(request,'driver_open_ride.html',{'open_ride':open_ride})
 
 @login_required(login_url='loginPage')
 def driver_confirmed_ride(request):
-    return render(request,'driver_confirmed_ride.html')
+    curr=UserDetail.objects.filter(username=request.user).first()
+    if curr.drive==False:
+        messages.info(request,"You cannot access to driver's page")
+        return redirect("main")
+    else:
+        return render(request,'driver_confirmed_ride.html')

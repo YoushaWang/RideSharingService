@@ -64,7 +64,7 @@ class Ride(models.Model):
     #status
     status=models.CharField(max_length = 20, choices = STATUS, default = 'OPEN')
     def __str__(self):
-        return self.owner
+        return self.owner.username
     
 
 
@@ -87,4 +87,4 @@ class UserDetail(models.Model):
     car_brand=models.CharField(max_length=20,null=True,blank=True)
     capacity=models.PositiveIntegerField(default=1,null=True,blank=True)
     def __str__(self):
-        return self.username
+        return self.username.username

@@ -82,7 +82,11 @@
       <table id="table2" class="block" style="display: inline-table" >
           <h4>Driver Info:</h4>
           <a>Are you still a driver:</a>
+          {% if curr.drive %}
+          <input type="checkbox" name="drive" id="myCheck" onclick="myfun()" checked>
+          {% else %}
           <input type="checkbox" name="drive" id="myCheck" onclick="myfun()">
+          {% endif %}
           <br><tr>
             <th>License num:</th>  
             <td><input type="text" id="option1" style="display:default" name="license_num" value="{{curr.license_num}}"></td>      
@@ -95,7 +99,7 @@
             <th>Car Type:</th>  
             <!-- <td><input type="text" id="option5" style="display:default" name="car_type" value="{{curr.car_type}}"></td>       -->
             <td><select  name="car_type" id="myselect">
-              <option value="NONE">{{curr.car_type}}</option>
+              <option value={{curr.car_type}}>{{curr.car_type}}</option>
               <!-- <option value="NONE" selected disabled hidden>---</option>     -->
               <option value="SUV" >SUV</option>
               <option value="COMPACT">COMPACT</option>

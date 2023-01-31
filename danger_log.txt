@@ -1,3 +1,6 @@
 1.29
 Username is the unique for our app.
 Can edit first name, last name, password for account, But not related to User.
+1.30
+special info could be disable or pets. haven't added.
+edit profile, the default button for ifdriver.
