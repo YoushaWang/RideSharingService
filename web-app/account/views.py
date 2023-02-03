@@ -230,7 +230,8 @@ def order_detail_pk(request,pk):
             fail_silently=False,
             )
         # about share
-        share_people = UserDetail.objects.filter(username=r.sharer).first()
+        
+        share_people = User.objects.filter(username=r.sharer).first()
         if share_people:
             send_mail(
                 'Update msg for a ride',
