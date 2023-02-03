@@ -3,8 +3,9 @@ from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Account,Driver,UserDetail,Ride
+from .models import UserDetail,Ride
 from django.core.mail import send_mail
+from django.urls import reverse
 
 # Create your views here.
 
@@ -46,21 +47,9 @@ def signup(request):
                 else:
                     user=User.objects.create_user(username=username,email=email,password=password,first_name=firstname,last_name=lastname)
                     user.save()
-                    # account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # account=Account.objects.create(user_name=user)
                     userDetail=UserDetail(username=user,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
                     userDetail.save()
                     auth.login(request, user)
-                    # curr = User.objects.get(username = username)
-                    # account=Account.objects.create(user_name='username',email=email,password=password,first_name=firstname,last_name=lastname,capacity=capacity)
-                    
-                    # if driver==True:
-                    
-                    # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # else:
-                    #     account=Account.objects.create(user=curr,drive=driver,email=email,first_name=firstname,last_name=lastname,password=password)
                     return redirect("main")
             else:
                 messages.info(request,'Two passwords not matching')
@@ -72,7 +61,6 @@ def signup(request):
         return render(request,'signup.html')
 
 def login(request):
-    # return render(request,'login.html')
     if request.method == 'POST':
         username=request.POST['username']
         password=request.POST['password']
@@ -209,12 +197,7 @@ def driver_open_ride(request):
         messages.info(request,"You cannot access to driver's page")
         return redirect("main")
     else:
-        if request.method == 'POST':
-            order_id=request.POST['order']
-            # return render(request,'order_detail.html',{'r':r})
-            request.session['order_id']=order_id
-            return redirect("order_detail")
-        else:
+        if request.method == 'GET':
             # doing things here
             open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__lte=curr.capacity).all()
             return render(request,'driver_open_ride.html',{'open_ride':open_ride})
@@ -226,20 +209,15 @@ def driver_confirmed_ride(request):
         messages.info(request,"You cannot access to driver's page")
         return redirect("main")
     else:
-        if request.method == 'POST':
-            order_id=request.POST['order']
-            request.session['order_id']=order_id
-            return redirect("order_detail")
-        else:
+        if request.method == 'GET':
             comfirm_ride=Ride.objects.filter(status="COMFIRM",driver=curr).all()
             return render(request,'driver_confirmed_ride.html',{'comfirm_ride':comfirm_ride})
 
+
 @login_required(login_url='loginPage')
-def order_detail(request):
-    order_id=request.session['order_id']
-    r=Ride.objects.filter(id=order_id).first()
+def order_detail_pk(request,pk):
+    r=Ride.objects.filter(id=pk).first()
     if request.method == 'POST':
-        #comfirm order
         r.status="COMFIRM"
         r.driver=request.user.username
         r.save()
