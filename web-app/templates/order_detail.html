@@ -81,8 +81,10 @@
                     <td>{{r.extraInfo}}</td>
                 </tr>
             </table>
+            {% block button %}
             <br><button type="submit" >Comfirm</button>
-            <button href="\#"> Edit </button>
+            {% endblock button%}
+            <!-- <button href="\#"> Edit </button> -->
         </form>
 </body>
 <script>

@@ -221,6 +221,36 @@ def order_detail_pk(request,pk):
         r.status="COMFIRM"
         r.driver=request.user.username
         r.save()
+        messages.info(request,"Success!")
+        send_mail(
+            'Update msg for a ride',
+            'your owning ride has been comfirmed by a driver',
+            'temp_for_project@outlook.com',
+            [r.owner.email],
+            fail_silently=False,
+            )
+        # about share
+        share_people = UserDetail.objects.filter(username=r.sharer).first()
+        if share_people:
+            send_mail(
+                'Update msg for a ride',
+                'your sharing ride has been comfirmed by a driver',
+                'temp_for_project@outlook.com',
+                [share_people.email],
+                fail_silently=False,
+                )   
         return render(request,'order_detail.html',{'r':r})
     else:
         return render(request,'order_detail.html',{'r':r})
+
+        
+@login_required(login_url='loginPage')
+def order_detail_pk_edit(request,pk):
+    r=Ride.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        r.status="COMPLETE"
+        r.save()
+        messages.info(request,"Success!")
+        return render(request,'order_detail_edit.html',{'r':r})
+    else:
+        return render(request,'order_detail_edit.html',{'r':r})
