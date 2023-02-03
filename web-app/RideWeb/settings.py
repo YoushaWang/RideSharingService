@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'phone_field',
 ]
 
 MIDDLEWARE = [
@@ -80,25 +79,25 @@ WSGI_APPLICATION = 'RideWeb.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'qjppwxnd',#mydatabase
-        'USER': 'qjppwxnd',
-        'PASSWORD': '6LmuhsimbtQJO-xHuFX_dK_dXMGo7Fy2',
-        'HOST': 'castor.db.elephantsql.com',
-        'PORT': 5432,
-    }
     # 'default': {
-    # # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    # 'ENGINE': 'django.db.backends.postgresql',
-    # 'NAME': 'postgres',#mydatabase
-    # 'USER': 'postgres',
-    # 'PASSWORD': 'Wys@2023',
-    # 'HOST': '127.0.0.1',
-    # # 'HOST': 'db',
-    # 'PORT': 5432,
+    #     # 'ENGINE': 'django.db.backends.postgresql_psycopg2',+
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'qjppwxnd',#mydatabase
+    #     'USER': 'qjppwxnd',
+    #     'PASSWORD': '6LmuhsimbtQJO-xHuFX_dK_dXMGo7Fy2',
+    #     'HOST': 'castor.db.elephantsql.com',
+    #     'PORT': 5432,
     # }
+    'default': {
+    # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'postgres',#mydatabase
+    'USER': 'postgres',
+    'PASSWORD': 'Wys@2023',
+    # 'HOST': '127.0.0.1',
+    'HOST': 'db',
+    'PORT': 5432,
+    }
 }
 
 # Password validation
@@ -144,3 +143,5 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
+
+CSRF_TRUSTED_ORIGINS= ["http://vcm-30336.vm.duke.edu:8000", "http://vcm-30735.vm.duke.edu:8000"]

@@ -18,5 +18,6 @@ urlpatterns = [
     path('driver_open_ride/',views.driver_open_ride,name='driver_open_ride'),
     path('driver_confirmed_ride/',views.driver_confirmed_ride,name='driver_confirmed_ride'),
     path('rider_request_ride/',views.rider_request_ride,name='rider_request_ride'),
-    path('order_detail/',views.order_detail,name='order_detail'),
+    # path('order_detail/',views.order_detail,name='order_detail'),
+    path('<int:pk>/order_detail',views.order_detail_pk,name='order_detail_pk'),
 ]

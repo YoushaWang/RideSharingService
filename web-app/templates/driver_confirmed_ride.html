@@ -52,8 +52,8 @@
                     <th>{{r.capacity}}</th>
                     <th>{{r.status}}</th>
                     <th>{{r.driver}}</th>
-                    <th><button type="submit" >Detail</button></th>
-                    
+                    <!-- <th><button type="submit" >Detail</button></th> -->
+                    <th> <a href="{% url 'order_detail_pk' r.id %}">Detail</a></th>
                 </tr>
                 {% endfor %}
                 
