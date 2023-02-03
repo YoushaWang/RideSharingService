@@ -20,4 +20,5 @@ urlpatterns = [
     path('rider_request_ride/',views.rider_request_ride,name='rider_request_ride'),
     # path('order_detail/',views.order_detail,name='order_detail'),
     path('<int:pk>/order_detail',views.order_detail_pk,name='order_detail_pk'),
+    path('<int:pk>/order_detail_edit',views.order_detail_pk_edit,name='order_detail_pk_edit'),
 ]
