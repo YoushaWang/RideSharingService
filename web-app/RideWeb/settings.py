@@ -79,8 +79,8 @@ WSGI_APPLICATION = 'RideWeb.wsgi.application'
 #     }
 # }
 DATABASES = {
+    # cloud
     # 'default': {
-    #     # 'ENGINE': 'django.db.backends.postgresql_psycopg2',+
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'qjppwxnd',#mydatabase
     #     'USER': 'qjppwxnd',
@@ -89,13 +89,14 @@ DATABASES = {
     #     'PORT': 5432,
     # }
     'default': {
-    # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
     'ENGINE': 'django.db.backends.postgresql',
     'NAME': 'postgres',#mydatabase
     'USER': 'postgres',
     'PASSWORD': 'Wys@2023',
-    # 'HOST': '127.0.0.1',
-    'HOST': 'db',
+    # use python to run 
+    'HOST': '127.0.0.1',
+    # use compose-up to run 
+    # 'HOST': 'db',
     'PORT': 5432,
     }
 }
