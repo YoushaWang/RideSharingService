@@ -144,3 +144,14 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
+
+CSRF_TRUSTED_ORIGINS= ["http://vcm-30336.vm.duke.edu:8000", "http://vcm-30735.vm.duke.edu:8000"]
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST_USER = 'temp_for_project@outlook.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_PASSWORD = 'temp@2023'
+EMAIL_PORT = 587
+# temp_for_project@outlook.com
+# temp@2023

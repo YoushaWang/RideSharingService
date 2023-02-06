@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sharer: Find a Share Ride</title>
+    <link rel="stylesheet" type="text/css" href="{% static  'style.css' %}" />
+</head>
+
+<body>
+<div style="width:100%;height: 100px;" >
+    <h1>RideSharingService</h1>
+    <h2>Sharer: Find Share Ride</h2>
+</div>
+<div>
+    <br>
+    <a>Hello, {{request.user}}</a>
+    <br>
+    <a class="button" href="/logout">Logout</a>
+    <br>
+    <a href="\main">Main Page</a>
+    <br>
+    <!--    <p>You can edit your</p> -->
+</div>
+<br><br>
+<div>
+    {% for message in messages %}
+    <h5>{{message}}</h5>
+    {% endfor %}
+</div>
+
+<!-- FORM -->
+
+<!--<form action="sharer_show_valid_rides.html" method="POST" >-->
+<form action="" method="POST" >
+    {% csrf_token %}
+    <div class="block">
+        <table>
+            <!--        <h4>Created by: {{request.user}}</h4>-->
+            <tr>
+                <th>Number of Passenger:</th>
+                <td><input type="number" name="sharer_num" value="1" max="10" style="width:200px;"></td>
+            </tr>
+            <tr>
+                <th>Your Destination</th>
+                <td><input type="text" name="destination" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+            </tr>
+            <tr>
+                <th>Your Earliest Estimated Time of Arrival</th>
+                <td><input type="datetime-local" name="earliest_arrival_time"  style="width:200px;"></td>
+                <th>Your Latest Estimated Time of Arrival</th>
+                <td><input type="datetime-local" name="latest_arrival_time"  style="width:200px;"></td>
+            </tr>
+        </table>
+        <br><button type="submit" >Search</button>  <!--search based on input information-->
+    </div>
+</form>
+
+<table border="1" style="margin-left:auto;margin-right:auto;">
+    <h4>Here are your rides.</h4>
+    <tr>
+        <!-- <th>No.</th> -->
+        <th>id</th>
+        <th>Schedule</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Car type</th>
+        <!--            <th>owner</th>-->
+        <th>People num</th>
+        <th>status</th>
+        <th>  </th>
+    </tr>
+    {% for r in match_rides %}
+    <tr>
+        <th><input type="hidden" value="{{r.id}}" name="order">{{r.id}}</th>
+        <th>{{r.schedule}}</th>
+        <th>{{r.pickup}}</th>
+        <th>{{r.whereto}}</th>
+        <th>{{r.car_type}}</th>
+        <!--            <th>{{r.owner.username}}</th>-->
+        <th>{{r.capacity}}</th>
+        <th>{{r.status}}</th>
+        <!--            <th><a href="\rider_order_detail">Details</a></th>-->
+        <th> <a href="{% url 'sharer_join_ride' r.id sharer_num %}">Join</a></th>
+
+        <!--            <th><button type="submit" >Detail</button></th>-->
+    </tr>
+    {% endfor %}
+</table>
+</body>
+
+</html>

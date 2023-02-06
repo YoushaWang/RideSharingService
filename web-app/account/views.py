@@ -3,7 +3,7 @@ from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Account,Driver,UserDetail,Ride
+from .models import UserDetail,Ride
 from django.core.mail import send_mail
 
 # Create your views here.
@@ -12,6 +12,7 @@ def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
     return render(request,'index.html')
 
+#---------basic page----------
 def signup(request):
     # return render(request,'signup.html')
     if request.method == 'POST':
@@ -46,21 +47,9 @@ def signup(request):
                 else:
                     user=User.objects.create_user(username=username,email=email,password=password,first_name=firstname,last_name=lastname)
                     user.save()
-                    # account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # account=Account.objects.create(user_name=user)
                     userDetail=UserDetail(username=user,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
                     userDetail.save()
                     auth.login(request, user)
-                    # curr = User.objects.get(username = username)
-                    # account=Account.objects.create(user_name='username',email=email,password=password,first_name=firstname,last_name=lastname,capacity=capacity)
-                    
-                    # if driver==True:
-                    
-                    # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # account=Account(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # account=Account.objects.create(user_name=curr,drive=driver,email=email,tel=tel,first_name=firstname,last_name=lastname,password=password,license_num=license_num,license_plate=license_plate,car_brand=car_brand,capacity=capacity,car_type=car_type)
-                    # else:
-                    #     account=Account.objects.create(user=curr,drive=driver,email=email,first_name=firstname,last_name=lastname,password=password)
                     return redirect("main")
             else:
                 messages.info(request,'Two passwords not matching')
@@ -72,7 +61,6 @@ def signup(request):
         return render(request,'signup.html')
 
 def login(request):
-    # return render(request,'login.html')
     if request.method == 'POST':
         username=request.POST['username']
         password=request.POST['password']
@@ -96,6 +84,7 @@ def logout(request):
 def main(request):
     return render(request,'main.html')
 
+#----------profile-----------
 @login_required(login_url='loginPage')
 def profile(request):
     curr=UserDetail.objects.filter(username=request.user).first()
@@ -177,6 +166,80 @@ def terms_and_conditions(request):
     return render(request,'term.html')
 
 
+#-------------------driver-------------------
+@login_required(login_url='loginPage')
+def driver_open_ride(request):
+    curr=UserDetail.objects.filter(username=request.user).first()
+    if curr.drive==False:
+        messages.info(request,"You cannot access to driver's page")
+        return redirect("main")
+    else:
+        if request.method == 'GET':
+            # doing things here
+            open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__lte=curr.capacity).all()
+            return render(request,'driver_open_ride.html',{'open_ride':open_ride})
+
+@login_required(login_url='loginPage')
+def driver_confirmed_ride(request):
+    curr=UserDetail.objects.filter(username=request.user).first()
+    if curr.drive==False:
+        messages.info(request,"You cannot access to driver's page")
+        return redirect("main")
+    else:
+        if request.method == 'GET':
+            comfirm_ride=Ride.objects.filter(status="COMFIRM",driver=curr).all()
+            return render(request,'driver_confirmed_ride.html',{'comfirm_ride':comfirm_ride})
+
+
+@login_required(login_url='loginPage')
+def order_detail_pk(request,pk):
+    r=Ride.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        r.status="COMFIRM"
+        r.driver=request.user.username
+        r.save()
+        messages.info(request,"Success!")
+        send_mail(
+            'Update msg for a ride',
+            'your owning ride has been comfirmed by a driver',
+            'temp_for_project@outlook.com',
+            [r.owner.email],
+            fail_silently=False,
+            )
+        # about share
+        # if confirmed ride, obtain extra information
+        # r=Ride.objects.filter(id=pk).first()
+        # if confirmed ride, obtain extra information
+        # d=User.objects.filter(username=r.driver).first()
+        s=User.objects.filter(username=r.sharer).first()   #why does not work?
+        # d=User.objects.filter(username=r.driver).first()
+        # driver_detail=UserDetail.objects.filter(username=d).first()   #why does not work?
+        share_people = UserDetail.objects.filter(username=s).first()
+        if share_people:
+            send_mail(
+                'Update msg for a ride',
+                'your sharing ride has been comfirmed by a driver',
+                'temp_for_project@outlook.com',
+                [share_people.email],
+                fail_silently=False,
+                )
+        return render(request,'order_detail.html',{'r':r})
+    else:
+        return render(request,'order_detail.html',{'r':r})
+
+@login_required(login_url='loginPage')
+def order_detail_pk_edit(request,pk):
+    r=Ride.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        r.status="COMPLETE"
+        r.save()
+        messages.info(request,"Success!")
+        # return render(request,'order_detail_edit.html',{'r':r})
+        return redirect("driver_confirmed_ride")
+    else:
+        return render(request,'order_detail_edit.html',{'r':r})
+
+# ---------------rider-------------------
 @login_required(login_url='loginPage')
 def rider_request_ride(request):
     if request.method == 'POST':
@@ -194,8 +257,8 @@ def rider_request_ride(request):
         extraInfo=request.POST['extraInfo']
         car_type=request.POST['car_type']
         status="OPEN"
-        ride=Ride(owner=owner,rider_num=rider_num,ifShare=ifshare,pickup=pickup,capacity=capacity,
-            whereto=whereto, schedule=schedule,extraInfo=extraInfo,car_type=car_type,status=status)
+        ride=Ride(owner=owner,rider_num=rider_num,ifShare=ifshare,pickup=pickup,
+                  whereto=whereto, schedule=schedule,extraInfo=extraInfo,car_type=car_type,status=status)
         ride.save()
         messages.info(request,"Success!")
         return redirect("main")
@@ -203,46 +266,135 @@ def rider_request_ride(request):
         return render(request,'rider_request_ride.html')
 
 @login_required(login_url='loginPage')
-def driver_open_ride(request):
+def rider_view_request(request):
     curr=UserDetail.objects.filter(username=request.user).first()
-    if curr.drive==False:
-        messages.info(request,"You cannot access to driver's page")
-        return redirect("main")
-    else:
-        if request.method == 'POST':
-            order_id=request.POST['order']
-            # return render(request,'order_detail.html',{'r':r})
-            request.session['order_id']=order_id
-            return redirect("order_detail")
-        else:
-            # doing things here
-            open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__lte=curr.capacity).all()
-            return render(request,'driver_open_ride.html',{'open_ride':open_ride})
+    if request.method == 'GET':
+        # doing things here
+        my_rides_open=Ride.objects.filter(status="OPEN",owner=request.user).all()
+        my_rides_confirm=Ride.objects.filter(status="COMFIRM",owner=request.user).all()
+        shared_rides_open=Ride.objects.filter(status="OPEN",sharer=request.user).all()
+        shared_rides_confirm=Ride.objects.filter(status="COMFIRM",sharer=request.user).all()
+        return render(request,'rider_view_request.html',{'my_ride_open':my_rides_open,'my_ride_confirm':my_rides_confirm,
+                                                         'shared_rides_open':shared_rides_open,
+                                                         'shared_rides_confirm':shared_rides_confirm})
 
 @login_required(login_url='loginPage')
-def driver_confirmed_ride(request):
-    curr=UserDetail.objects.filter(username=request.user).first()
-    if curr.drive==False:
-        messages.info(request,"You cannot access to driver's page")
-        return redirect("main")
+def rider_order_detail_pk(request,pk):
+    r=Ride.objects.filter(id=pk).first()
+    if r.sharer:    # if there is sharer
+        return render(request,'sharer_order_detail.html',{'r':r})
     else:
-        if request.method == 'POST':
-            order_id=request.POST['order']
-            request.session['order_id']=order_id
-            return redirect("order_detail")
-        else:
-            comfirm_ride=Ride.objects.filter(status="COMFIRM",driver=curr).all()
-            return render(request,'driver_confirmed_ride.html',{'comfirm_ride':comfirm_ride})
+        return render(request,'rider_order_detail.html',{'r':r})
 
 @login_required(login_url='loginPage')
-def order_detail(request):
-    order_id=request.session['order_id']
-    r=Ride.objects.filter(id=order_id).first()
+def rider_edit_request(request,pk):
+    # curr=Ride.objects.filter(owner=request.user).first()
+    curr=Ride.objects.filter(id=pk).first()
+    if request.method=='POST':
+        owner = request.user
+        rider_num=request.POST['rider_num']
+        share=request.POST.getlist('share')
+        if share==["on"]:
+            ifshare=True
+        else:
+            ifshare=False
+        pickup=request.POST['pickup']
+        whereto=request.POST['whereto']
+        schedule=request.POST['schedule']
+        extraInfo=request.POST['extraInfo']
+        car_type=request.POST['car_type']
+        status="OPEN"
+        # curr=Ride(owner=owner,rider_num=rider_num,ifShare=ifshare,pickup=pickup,
+        #           whereto=whereto, schedule=schedule,extraInfo=extraInfo,car_type=car_type,status=status)
+        # curr.username=username
+        curr.owner=owner
+        curr.capacity=rider_num
+        curr.share=share
+        curr.pickup=pickup
+        #driver info
+        curr.whereto=whereto
+        curr.schedule=schedule
+        curr.extraInfo=extraInfo
+        curr.status=status
+
+        curr.save() #save to the database
+        messages.info(request,"Success!")
+        return redirect("rider_view_request")
+    else:
+        # curr=UserDetail.objects.filter(username=request.user).first()
+        return render(request,'rider_edit_request.html',{'curr':curr})
+
+#for confirm ride
+@login_required(login_url='loginPage')
+def rider_order_details_car_info_pk(request,pk):
+    r=Ride.objects.filter(id=pk).first()
+    # if confirmed ride, obtain extra information
+    d=User.objects.filter(username=r.driver).first()
+    driver_detail=UserDetail.objects.filter(username=d).first()
+    return render(request,'rider_order_details_car_info.html',{'r':r,'d':driver_detail})
+
+#-------------------sharer--------------------
+@login_required(login_url='loginPage')
+def sharer_find_share_rides(request):
+    sharer_num=request.POST.get('sharer_num')
+    earliest_arrival_time=request.POST.get('earliest_arrival_time')
+    latest_arrival_time=request.POST.get('latest_arrival_time')
+    destination=request.POST.get('destination')
+    # capacity_list=[]
     if request.method == 'POST':
-        #comfirm order
-        r.status="COMFIRM"
-        r.driver=request.user.username
+
+        match_rides=Ride.objects.filter(whereto=destination,ifShare=True,schedule__gte=earliest_arrival_time,
+                                        schedule__lte=latest_arrival_time,status="OPEN",capacity__lte=20)\
+                                        .exclude(owner=request.user).all()  # sharer cannot share the ride of itsself
+
+        return render(request,"sharer_show_valid_rides.html",{'match_rides':match_rides,'sharer_num':sharer_num})
+        # return render(request,"sharer_find_share_rides.html")
+    return render(request,"sharer_find_share_rides.html")
+
+@login_required(login_url='loginPage')
+def sharer_join_ride(request,pk,sharer_num):
+    r=Ride.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        messages.info(request,"Success!")
+        r.sharer=request.user.username
+        r.sharer_num=sharer_num
+        r.capacity=r.capacity+sharer_num
+        r.ifShare=False
         r.save()
-        return render(request,'order_detail.html',{'r':r})
+        return render(request,'sharer_order_detail.html',{'r':r})
     else:
-        return render(request,'order_detail.html',{'r':r})
+        return render(request,'sharer_join_ride.html',{'r':r})
+
+
+@login_required(login_url='loginPage')
+def sharer_edit_request(request,pk):
+    # curr=Ride.objects.filter(owner=request.user).first()
+    curr=Ride.objects.filter(id=pk).first()
+    sharer_num=request.POST.get('sharer_num')
+    pickup=request.POST.get('pickup')
+    whereto=request.POST.get('whereto')
+    schedule=request.POST.get('schedule')
+    car_type=request.POST.get('car_type')
+    extraInfo=request.POST.get('extraInfo')
+    if request.method=='POST':
+
+        tmp=curr.sharer_num #previous sharer number
+        curr.capacity=curr.capacity+int(sharer_num)-tmp
+        curr.sharer_num=int(sharer_num)
+
+            # curr.sharer_num=sharer_num
+        if pickup:
+            curr.pickup=pickup
+        if whereto:
+            curr.whereto=whereto
+        if schedule:
+            curr.schedule=schedule
+        if car_type:
+            curr.car_type=car_type
+        if extraInfo:
+            curr.extraInfo=extraInfo
+        curr.save()
+        messages.info(request,"Success!")
+        return redirect("rider_view_request")
+    else:
+        return render(request,'sharer_edit_request.html',{'curr':curr})
