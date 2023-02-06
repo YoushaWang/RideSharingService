@@ -27,6 +27,7 @@
     {% endfor %}
 </div>
 
+<<<<<<< HEAD
 <form action="" method="POST">
     {% csrf_token %}
     <table border="1" style="margin-left:auto;margin-right:auto;">
@@ -86,6 +87,67 @@
     {% endblock button%}
     <!-- <button href="\#"> Edit </button> -->
 </form>
+=======
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table border="1" style="margin-left:auto;margin-right:auto;">
+                <h4>Here are order details.</h4>
+                <tr>
+                    <!-- <th>No.</th> -->
+                    <th>id</th>
+                    <td><input type="hidden" value="{{r.id}}" name="order">{{r.id}}</td>
+                </tr>
+                <tr>
+                    <th>Schedule</th>
+                    <td>{{r.schedule}}</td>
+                </tr>
+                <tr>
+                    <th>From</th>
+                    <td>{{r.pickup}}</td>
+                </tr>
+                <tr>
+                    <th>To</th>
+                    <td>{{r.whereto}}</td>
+                </tr>
+                <tr>
+                    <th>Car type</th>
+                    <td>{{r.car_type}}</td>
+                </tr>
+                <tr>
+                    <th>owner</th>
+                    <td>{{r.owner.username}}</td>
+                </tr>
+                <tr>
+                    <th>driver</th>
+                    <td>{{r.driver}}</td>
+                </tr>
+                <tr>
+                    <th>ifShare</th>
+                    <td>{{r.ifShare}}</td>
+                </tr>
+                <tr>
+                    <th>sharer</th>
+                    <td>{{r.sharer}}</td>
+                </tr>
+                <tr>
+                    <th>People num</th>
+                    <td>{{r.capacity}}</td>
+                </tr>
+                <tr>
+                    <th>status</th>
+                    <td>{{r.status}}</td>
+                </tr>
+                <tr>
+                    <th>Extra Info</th>
+                    <td>{{r.extraInfo}}</td>
+                </tr>
+            </table>
+            {% block button %}
+            <br><button type="submit" >Comfirm</button>
+            {% endblock button%}
+            <!-- <button href="\#"> Edit </button> -->
+        </form>
+>>>>>>> 52089fc68f7730f34ebb2cabf826aabbbd148c55
 </body>
 <script>
     // function myfun(){

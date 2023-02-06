@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import UserDetail,Ride
 from django.core.mail import send_mail
+from django.urls import reverse
 
 # Create your views here.
 
@@ -268,6 +269,7 @@ def rider_request_ride(request):
 @login_required(login_url='loginPage')
 def rider_view_request(request):
     curr=UserDetail.objects.filter(username=request.user).first()
+<<<<<<< HEAD
     if request.method == 'GET':
         # doing things here
         my_rides_open=Ride.objects.filter(status="OPEN",owner=request.user).all()
@@ -277,6 +279,16 @@ def rider_view_request(request):
         return render(request,'rider_view_request.html',{'my_ride_open':my_rides_open,'my_ride_confirm':my_rides_confirm,
                                                          'shared_rides_open':shared_rides_open,
                                                          'shared_rides_confirm':shared_rides_confirm})
+=======
+    if curr.drive==False:
+        messages.info(request,"You cannot access to driver's page")
+        return redirect("main")
+    else:
+        if request.method == 'GET':
+            # doing things here
+            open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__lte=curr.capacity).all()
+            return render(request,'driver_open_ride.html',{'open_ride':open_ride})
+>>>>>>> 52089fc68f7730f34ebb2cabf826aabbbd148c55
 
 @login_required(login_url='loginPage')
 def rider_order_detail_pk(request,pk):
@@ -284,6 +296,7 @@ def rider_order_detail_pk(request,pk):
     if r.sharer:    # if there is sharer
         return render(request,'sharer_order_detail.html',{'r':r})
     else:
+<<<<<<< HEAD
         return render(request,'rider_order_detail.html',{'r':r})
 
 @login_required(login_url='loginPage')
@@ -398,3 +411,51 @@ def sharer_edit_request(request,pk):
         return redirect("rider_view_request")
     else:
         return render(request,'sharer_edit_request.html',{'curr':curr})
+=======
+        if request.method == 'GET':
+            comfirm_ride=Ride.objects.filter(status="COMFIRM",driver=curr).all()
+            return render(request,'driver_confirmed_ride.html',{'comfirm_ride':comfirm_ride})
+
+
+@login_required(login_url='loginPage')
+def order_detail_pk(request,pk):
+    r=Ride.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        r.status="COMFIRM"
+        r.driver=request.user.username
+        r.save()
+        messages.info(request,"Success!")
+        send_mail(
+            'Update msg for a ride',
+            'your owning ride has been comfirmed by a driver',
+            'temp_for_project@outlook.com',
+            [r.owner.email],
+            fail_silently=False,
+            )
+        # about share
+        
+        share_people = User.objects.filter(username=r.sharer).first()
+        if share_people:
+            send_mail(
+                'Update msg for a ride',
+                'your sharing ride has been comfirmed by a driver',
+                'temp_for_project@outlook.com',
+                [share_people.email],
+                fail_silently=False,
+                )   
+        return render(request,'order_detail.html',{'r':r})
+    else:
+        return render(request,'order_detail.html',{'r':r})
+
+        
+@login_required(login_url='loginPage')
+def order_detail_pk_edit(request,pk):
+    r=Ride.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        r.status="COMPLETE"
+        r.save()
+        messages.info(request,"Success!")
+        return render(request,'order_detail_edit.html',{'r':r})
+    else:
+        return render(request,'order_detail_edit.html',{'r':r})
+>>>>>>> 52089fc68f7730f34ebb2cabf826aabbbd148c55

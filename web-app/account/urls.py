@@ -18,6 +18,7 @@ urlpatterns = [
     path('driver_open_ride/',views.driver_open_ride,name='driver_open_ride'),
     path('driver_confirmed_ride/',views.driver_confirmed_ride,name='driver_confirmed_ride'),
     path('rider_request_ride/',views.rider_request_ride,name='rider_request_ride'),
+<<<<<<< HEAD
     path('rider_view_request/',views.rider_view_request,name='rider_view_request'),
     path('<int:pk>/rider_edit_request',views.rider_edit_request,name='rider_edit_request'),
     path('<int:pk>/sharer_edit_request',views.sharer_edit_request,name='sharer_edit_request'),
@@ -27,5 +28,9 @@ urlpatterns = [
     path('<int:pk>/order_detail',views.order_detail_pk,name='order_detail_pk'),
     path('<int:pk>/rider_order_detail',views.rider_order_detail_pk,name='rider_order_detail_pk'),
     path('<int:pk>/rider_order_details_car_info',views.rider_order_details_car_info_pk,name='rider_order_details_car_info_pk'),
+=======
+    # path('order_detail/',views.order_detail,name='order_detail'),
+    path('<int:pk>/order_detail',views.order_detail_pk,name='order_detail_pk'),
+>>>>>>> 52089fc68f7730f34ebb2cabf826aabbbd148c55
     path('<int:pk>/order_detail_edit',views.order_detail_pk_edit,name='order_detail_pk_edit'),
 ]
