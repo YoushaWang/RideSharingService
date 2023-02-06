@@ -1,6 +1,10 @@
+Note down the possible errors that have not been well-handled
+
+
 1.29
 Username is the unique for our app.
 Can edit first name, last name, password for account, But not related to User.
+
 1.30
 special info could be disable or pets. haven't added.
 edit profile, the default button for ifdriver.
@@ -8,3 +12,17 @@ when add sharer info, need to add capacity
 1.31
 All form about ride in driver part not have turn the page. 
 If the data-base is very huge, it is hard to find a order. Besides, ride has no ordering.
+
+2.2
+1. what driver see must be the drive that is not requested by them
+2. CAN'T show the confirm ride in rider's page.
+3. driver can confirm the ride request of itsself
+4. one ride can only be shared by one person
+5. sharer cant share the ride owned by itsself
+
+-----------Other dangers:
+
+
+-----------Unsolved Question
+1. Q? what information can be changed by sharer?
+2. special information edit

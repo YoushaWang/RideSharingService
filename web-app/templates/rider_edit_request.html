@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Request</title>
+    <link rel="stylesheet" type="text/css" href="{% static  'style.css' %}" />
+</head>
+
+<body>
+<!-- HEAD -->
+<div style="width:100%;height: 100px;" >
+    <h1>RideSharingService</h1>
+    <h2>Edit Request</h2>
+</div>
+<!-- MAIN -->
+<div>
+    {% for message in messages %}
+    <h5>{{message}}</h5>
+    {% endfor %}
+</div>
+<div>
+    <br>
+    <a>Hello, {{request.user}}</a>
+    <br>
+    <a class="button" href="/logout">Logout</a>
+    <br>
+    <a href="\main">Main Page</a>
+    <br>
+    <a href="\rider_view_request">View My Original Request</a>
+    <br>
+<!--    <p>You can edit your</p> -->
+</div>
+
+<form action="" method="POST" >
+    {% csrf_token %}
+    <table id="table1" class="block" style="display: inline-table" style="width:100%" >
+        <h4>Update Request Information:</h4>
+        <tr>
+            <th>Number of Rider:</th>
+            <td><input type="number" name="rider_num" value="1" max="10" style="width:200px;"></td>
+        </tr>
+        <tr>
+            <th>Want to Share?</th>
+            <td><input type="checkbox" name="share" style="width:200px;"></td>
+        </tr>
+        <tr>
+            <th>PickUp</th>
+            <td><input type="text" name="pickup" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+        </tr>
+        <tr>
+            <th>Destination</th>
+            <td><input type="text" name="whereto" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+        </tr>
+        <tr>
+            <th>schedule</th>
+            <td><input type="datetime-local" name="schedule"  style="width:200px;"></td>
+        </tr>
+        <tr>
+            <th>extraInfo</th>
+            <td><input type="text" name="extraInfo" placeholder="No pets." style="width:200px;height: 50px;"></td>
+        </tr>
+        <tr>
+            <th>Car Type</th>
+            <td>
+                <select name="car_type" id="myselect" style="width:200px;">
+                    <option value="SUV" >SUV</option>
+                    <option value="COMPACT">COMPACT</option>
+                    <option value="COMFORT">COMFORT</option>
+                    <option value="GREEN">GREEN</option>
+                    <option value="PREMIER">PREMIER</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br><button type="submit" >Save</button>
+    <br>
+<!--    <a class="button" href="/logout">Logout</a>-->
+<!-- <a href="\profile"> Save </a> -->
+</form>
+</body>
+</html>

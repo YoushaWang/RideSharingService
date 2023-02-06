@@ -1,17 +1,18 @@
+<!--used only for driver edit-->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Driver: Open Rides</title>
+    <title>Rider: Open Rides Details</title>
     <link rel="stylesheet" type="text/css" href="{% static  'style.css' %}" />
 </head>
 
 <body>
 <div style="width:100%;height: 100px;" >
     <h1>RideSharingService</h1>
-    <h2>Driver: Open Rides</h2>
+    <h2>Rider: Open Rides Details</h2>
 </div>
 <div>
     <br>
@@ -19,6 +20,7 @@
     <a class="button" href="/logout">Logout</a>
     <a href="\profile">Profile</a>
     <a href="\main">Main</a>
+    <a href="\rider_view_request">Back</a>
 </div>
 <br><br>
 <div>
@@ -26,6 +28,7 @@
     <h5>{{message}}</h5>
     {% endfor %}
 </div>
+
 <form action="" method="POST">
     {% csrf_token %}
     <table border="1" style="margin-left:auto;margin-right:auto;">
@@ -80,16 +83,48 @@
             <td>{{r.extraInfo}}</td>
         </tr>
     </table>
-    {% block button %}
-    <br><button type="submit" >Comfirm</button>
-    {% endblock button%}
-    <!-- <button href="\#"> Edit </button> -->
+
+    <table border="1" style="margin-left:auto;margin-right:auto;">
+        <h4>Here are driver details.</h4>
+        <tr>
+            <th>Driver's Name:</th>
+            <td>{{d.first_name}} {{d.last_name}}</td>
+<!--            <td>{{d.lastname}}</td>-->
+        </tr>
+        <tr>
+            <th>Driver's Number:</th>
+            <td>{{d.tel}}</td>
+        </tr>
+        <tr>
+            <th>Driver's E-mail:</th>
+            <td>{{d.email}}</td>
+        </tr>
+        <tr>
+            <th>Driver License Number</th>
+            <td>{{d.license_num}}</td>
+        </tr>
+        <tr>
+            <th>Driver License Plate</th>
+            <td>{{d.license_plate}}</td>
+        </tr>
+        <tr>
+            <th>Car Type</th>
+            <td>{{d.car_type}}</td>
+        </tr>
+        <tr>
+            <th>Car Brand</th>
+            <td>{{d.car_brand}}</td>
+        </tr>
+    </table>
+    <!--    <br><button type="submit" >Comfirm</button>-->
+    <!--    <button href=/rider_view_request> Back </button>-->
+<!--    <button href=/rider_edit_request> Edit </button>-->
 </form>
 </body>
 <script>
     // function myfun(){
     //     document.write(r.username);
-    // }   
+    // }
 </script>
 
 </html>
