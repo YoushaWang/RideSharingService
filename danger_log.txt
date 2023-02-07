@@ -31,3 +31,6 @@ edited by a sharer, which is more appropriate
 
 5. Database problem
 If the data-base is very huge, it is hard to find a order.
+
+
+Q: In our lab, we must specify the vehicle type.

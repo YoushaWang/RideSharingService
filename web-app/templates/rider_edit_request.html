@@ -42,8 +42,8 @@
             <td><input type="number" name="rider_num" value="{{curr.rider_num}}" max="10" style="width:200px;"></td>
         </tr>
         <tr>
-            <th>Want to Share?</th>
-            <td><input type="checkbox" name="share"  style="width:200px;"></td>
+            <th>Want to Share?(MUST SELECT IF WANT SHARE)</th>
+            <td><input type="checkbox" name="share"  style="width:200px;" value="on"></td>
         </tr>
         <tr>
             <th>PickUp</th>
@@ -52,6 +52,10 @@
         <tr>
             <th>Destination</th>
             <td><input type="text" name="whereto" value="{{curr.whereto}}" style="width:200px;height: 50px;"></td>
+        </tr>
+        <tr>
+            <th>Old Schedule</th>
+            <td>{{curr.schedule}}</td>
         </tr>
         <tr>
             <th>schedule</th>
@@ -65,6 +69,7 @@
             <th>Car Type</th>
             <td>
                 <select name="car_type" id="myselect" style="width:200px;">
+                    <option value="NONE">Whatever</option>
                     <option value="SUV" >SUV</option>
                     <option value="COMPACT">COMPACT</option>
                     <option value="COMFORT">COMFORT</option>

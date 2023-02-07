@@ -178,7 +178,8 @@ def driver_open_ride(request):
         if request.method == 'GET':
             # doing things here
             open_ride=Ride.objects.filter(status="OPEN",car_type=curr.car_type,capacity__lte=curr.capacity).all()
-            return render(request,'driver_open_ride.html',{'open_ride':open_ride})
+            open_ride_whatever=Ride.objects.filter(status="OPEN",car_type="NONE",capacity__lte=curr.capacity).all()
+            return render(request,'driver_open_ride.html',{'open_ride':open_ride,'open_ride_whatever':open_ride_whatever})
 
 @login_required(login_url='loginPage')
 def driver_confirmed_ride(request):
@@ -303,6 +304,8 @@ def rider_edit_request(request,pk):
         pickup=request.POST['pickup']
         whereto=request.POST['whereto']
         schedule=request.POST['schedule']
+        if not schedule:
+            schedule=curr.schedule
         extraInfo=request.POST['extraInfo']
         car_type=request.POST['car_type']
         status="OPEN"
@@ -350,7 +353,8 @@ def sharer_find_share_rides(request):
                                         schedule__lte=latest_arrival_time,status="OPEN",capacity__lte=20)\
                                         .exclude(owner=request.user).all()  # sharer cannot share the ride of itsself
 
-        return render(request,"sharer_show_valid_rides.html",{'match_rides':match_rides,'sharer_num':sharer_num})
+        return render(request,"sharer_show_valid_rides.html",{'match_rides':match_rides,'sharer_num':sharer_num,
+                                                            'pickup':pickup,'destination':destination})
         # return render(request,"sharer_find_share_rides.html")
     return render(request,"sharer_find_share_rides.html")
 

@@ -40,15 +40,15 @@
             <!--        <h4>Created by: {{request.user}}</h4>-->
             <tr>
                 <th>Number of Passenger:</th>
-                <td><input type="number" name="sharer_num" value="1" max="10" style="width:200px;"></td>
+                <td><input type="number" name="sharer_num" value="{{sharer_num}}" max="10" style="width:200px;"></td>
             </tr>
             <tr>
                 <th>Pick Up</th>
-                <td><input type="text" name="pickup" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+                <td><input type="text" name="pickup" value="{{pickup}}" style="width:200px;height: 50px;"></td>
             </tr>
             <tr>
                 <th>Destination</th>
-                <td><input type="text" name="destination" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+                <td><input type="text" name="destination" value="{{destination}}" style="width:200px;height: 50px;"></td>
             </tr>
             <tr>
                 <th>Your Earliest Estimated Time of Arrival</th>
