@@ -1,35 +1,35 @@
-Note down the possible errors that have not been well-handled
+1. Login/Logout
+a. Username is unique for our app.
+b. Users can edit first name, last name, password for account.
 
 
-1.29
-Username is the unique for our app.
-Can edit first name, last name, password for account, But not related to User.
-
-1.30
-special info could be disable or pets. haven't added.
-edit profile, the default button for ifdriver.
-when add sharer info, need to add capacity
-1.31
-All form about ride in driver part not have turn the page. 
-If the data-base is very huge, it is hard to find a order. Besides, ride has no ordering.
-
-2.2
-1. what driver see must be the drive that is not requested by them
-2. CAN'T show the confirm ride in rider's page.
-3. driver can confirm the ride request of itsself
-4. one ride can only be shared by one person
-5. sharer cant share the ride owned by itsself
-
-2.4
-1. If a driver choose to become a normal user, 
-the ride which he wants to be a driver will not automatically become OPEN. 
-2. The way we used to relate sharer and driver is simply finding the username
-instead of a many-to-many relationship, which is not such professional. 
-3. When a driver choose to be a normal user, his car information will not be deleted automatically,
-we store that instead, which will convenienece the user.
+2. Ride Request
+Special Information: When sharer information is added, need to update the total
+customer number.
 
 
+3. Driver
+a. When a ride is searched by driver, only ride with the customer number
+less than capacity can be searched.
+b. Driver can see his own order and can confirm the ride requested by himself
+c. If a driver choose to become a normal user,
+the ride which he wants to be a driver will not automatically become OPEN.
+d. The way we used to relate sharer and driver is simply finding the username
+instead of a many-to-many relationship, which is not such professional.
+e. When a driver choose to be a normal user, his car information will not
+be deleted automatically. Instead, we keep that information, which is convenient
+for the user.
 
------------Unsolved Question
-1. Q? what information can be changed by sharer?
-3. if the driver choose to be a normal user, the ride will not automatically become OPEN.
+
+4. Rider & sharer
+a. one ride can only be shared by one person
+b. sharer cannot share the ride requested/owned by himself
+c. Confirmed ride cannot be shown in the rider's page
+d. Only the destination, special information, sharer number of a ride can be
+edited by a sharer, which is more appropriate
+
+
+5. Database problem
+If the data-base is very huge, it is hard to find a order.
+
+
