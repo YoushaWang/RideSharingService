@@ -1,7 +1,7 @@
 1. Login/Logout
 a. Username is unique for our app.
 b. Users can edit first name, last name, password for account.
-
+c. If the driver doesn't enter the vehicle's information, he can still be a driver.
 
 2. Ride Request
 Special Information: When sharer information is added, need to update the total
@@ -32,4 +32,7 @@ edited by a sharer, which is more appropriate
 5. Database problem
 If the data-base is very huge, it is hard to find a order.
 
-
+NEED IMPROVE:
+1. open ride edit need to show default value
+2. find share ride - no pickup place - although requirement 14 doesn't require this
+3. search share -(capacity ? 20's limit shi bu shi tai da le) and the earliest and lateset prefer to be at diff row
