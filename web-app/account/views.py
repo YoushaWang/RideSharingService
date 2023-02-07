@@ -224,7 +224,8 @@ def order_detail_pk(request,pk):
                 [share_people.email],
                 fail_silently=False,
                 )
-        return render(request,'order_detail.html',{'r':r})
+        # return render(request,'order_detail.html',{'r':r})
+        return redirect("driver_confirmed_ride")
     else:
         return render(request,'order_detail.html',{'r':r})
 
