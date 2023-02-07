@@ -39,27 +39,27 @@
         <h4>Update Request Information:</h4>
         <tr>
             <th>Number of Rider:</th>
-            <td><input type="number" name="rider_num" value="1" max="10" style="width:200px;"></td>
+            <td><input type="number" name="rider_num" value="{{curr.rider_num}}" max="10" style="width:200px;"></td>
         </tr>
         <tr>
             <th>Want to Share?</th>
-            <td><input type="checkbox" name="share" style="width:200px;"></td>
+            <td><input type="checkbox" name="share"  style="width:200px;"></td>
         </tr>
         <tr>
             <th>PickUp</th>
-            <td><input type="text" name="pickup" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+            <td><input type="text" name="pickup" value="{{curr.pickup}}" style="width:200px;height: 50px;"></td>
         </tr>
         <tr>
             <th>Destination</th>
-            <td><input type="text" name="whereto" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+            <td><input type="text" name="whereto" value="{{curr.whereto}}" style="width:200px;height: 50px;"></td>
         </tr>
         <tr>
             <th>schedule</th>
-            <td><input type="datetime-local" name="schedule"  style="width:200px;"></td>
+            <td><input type="datetime-local" name="schedule" style="width:200px;"></td>
         </tr>
         <tr>
             <th>extraInfo</th>
-            <td><input type="text" name="extraInfo" placeholder="No pets." style="width:200px;height: 50px;"></td>
+            <td><input type="text" name="extraInfo" value="{{curr.extraInfo}}" style="width:200px;height: 50px;"></td>
         </tr>
         <tr>
             <th>Car Type</th>

@@ -311,7 +311,7 @@ def rider_edit_request(request,pk):
         # curr.username=username
         curr.owner=owner
         curr.capacity=rider_num
-        curr.share=share
+        curr.ifShare=ifshare
         curr.pickup=pickup
         #driver info
         curr.whereto=whereto
@@ -339,6 +339,7 @@ def rider_order_details_car_info_pk(request,pk):
 @login_required(login_url='loginPage')
 def sharer_find_share_rides(request):
     sharer_num=request.POST.get('sharer_num')
+    pickup=request.POST.get('pickup')
     earliest_arrival_time=request.POST.get('earliest_arrival_time')
     latest_arrival_time=request.POST.get('latest_arrival_time')
     destination=request.POST.get('destination')

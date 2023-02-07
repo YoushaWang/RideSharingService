@@ -38,15 +38,15 @@
     <table id="table1" class="block" style="display: inline-table" style="width:100%" >
         <h4>Update Request Information:</h4>
         <tr>
-            <th>Number of Sharer:</th>
-            <td><input type="number" name="sharer_num" value="1" max="10" style="width:200px;"></td>
+            <th>Number of Sharer</th>
+            <td><input type="number" name="sharer_num" value="{{curr.sharer_num}}" max="10" style="width:200px;"></td>
         </tr>
             <th>PickUp</th>
-            <td><input type="text" name="pickup" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+            <td><input type="text" name="pickup" value="{{curr.pickup}}" style="width:200px;height: 50px;"></td>
         </tr>
         <tr>
             <th>Destination</th>
-            <td><input type="text" name="whereto" placeholder="2080 Duke University Rd" style="width:200px;height: 50px;"></td>
+            <td><input type="text" name="whereto" value="{{curr.whereto}}" style="width:200px;height: 50px;"></td>
         </tr>
         <tr>
             <th>schedule</th>
@@ -54,7 +54,7 @@
         </tr>
         <tr>
             <th>extraInfo</th>
-            <td><input type="text" name="extraInfo" placeholder="No pets." style="width:200px;height: 50px;"></td>
+            <td><input type="text" name="extraInfo" value="{{curr.extraInfo}}" style="width:200px;height: 50px;"></td>
         </tr>
         <tr>
             <th>Car Type</th>
