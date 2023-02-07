@@ -20,9 +20,16 @@ If the data-base is very huge, it is hard to find a order. Besides, ride has no 
 4. one ride can only be shared by one person
 5. sharer cant share the ride owned by itsself
 
------------Other dangers:
+2.4
+1. If a driver choose to become a normal user, 
+the ride which he wants to be a driver will not automatically become OPEN. 
+2. The way we used to relate sharer and driver is simply finding the username
+instead of a many-to-many relationship, which is not such professional. 
+3. When a driver choose to be a normal user, his car information will not be deleted automatically,
+we store that instead, which will convenienece the user.
+
 
 
 -----------Unsolved Question
 1. Q? what information can be changed by sharer?
-2. special information edit
+3. if the driver choose to be a normal user, the ride will not automatically become OPEN.
