@@ -195,12 +195,8 @@ def driver_confirmed_ride(request):
 def order_detail_pk(request,pk):
     r=Ride.objects.filter(id=pk).first()
     if request.method == 'POST':
-        r.status="COMFIRM"
-        r.driver=request.user.username
-        r.save()
-        messages.info(request,"Success!")
         send_mail(
-            'Update msg for a ride',
+            'Ride sharing server',
             'your owning ride has been comfirmed by a driver',
             'temp_for_project@outlook.com',
             [r.owner.email],
@@ -212,14 +208,14 @@ def order_detail_pk(request,pk):
         # share_people = UserDetail.objects.filter(username=s).first()
         # if share_people:
         #     send_mail(
-        #         'Update msg for a ride',
+        #         'Ride sharing server',
         #         'your sharing ride has been comfirmed by a driver',
         #         'temp_for_project@outlook.com',
         #         [share_people.email],
         #         fail_silently=False,
         #         )
         # multiple sharer version
-        sharers=r.multiSharer
+        sharers=r.multiSharer.all()
         for s in sharers:
             send_mail(
                 'Update msg for a ride',
@@ -228,6 +224,10 @@ def order_detail_pk(request,pk):
                 [s.email],
                 fail_silently=False,
                 )
+        r.driver=request.user.username
+        r.status="COMFIRM"
+        r.save()
+        messages.info(request,"Success!")
         return redirect("driver_confirmed_ride")
     else:
         return render(request,'order_detail.html',{'r':r})
