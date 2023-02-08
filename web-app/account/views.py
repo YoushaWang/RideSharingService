@@ -202,6 +202,16 @@ def order_detail_pk(request,pk):
             [r.owner.email],
             fail_silently=False,
             )
+        # multiple sharer version
+        sharers=r.multiSharer.all()
+        for s in sharers:
+            send_mail(
+                'Update msg for a ride',
+                'your sharing ride has been comfirmed by a driver',
+                'temp_for_project@outlook.com',
+                [s.email],
+                fail_silently=False,
+                )
         # about share
         # only one sharer version
         # s=User.objects.filter(username=r.sharer).first()
@@ -214,16 +224,7 @@ def order_detail_pk(request,pk):
         #         [share_people.email],
         #         fail_silently=False,
         #         )
-        # multiple sharer version
-        sharers=r.multiSharer.all()
-        for s in sharers:
-            send_mail(
-                'Update msg for a ride',
-                'your sharing ride has been comfirmed by a driver',
-                'temp_for_project@outlook.com',
-                [s.email],
-                fail_silently=False,
-                )
+
         r.driver=request.user.username
         r.status="COMFIRM"
         r.save()
