@@ -291,7 +291,7 @@ def rider_order_detail_pk(request,pk):
     r=Ride.objects.filter(id=pk).first()
     # if r.sharer:    # if there is sharer
     #     return render(request,'sharer_order_detail.html',{'r':r})
-    if r.multiSharer:    # if there is sharer
+    if r.sharer:    # if there is sharer
         multi_s = r.multiSharer.all()
         return render(request,'sharer_order_detail.html',{'r':r,'multi_s':multi_s})
     else:

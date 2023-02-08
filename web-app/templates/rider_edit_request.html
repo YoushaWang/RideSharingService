@@ -42,8 +42,12 @@
             <td><input type="number" name="rider_num" value="{{curr.rider_num}}" max="10" style="width:200px;"></td>
         </tr>
         <tr>
-            <th>Want to Share?(MUST SELECT IF WANT SHARE)</th>
-            <td><input type="checkbox" name="share"  style="width:200px;" value="on"></td>
+            <th>Want to Share?</th>
+            {% if curr.ifShare %}
+            <td><input type="checkbox" name="share" id="myCheck" style="width:200px;" onclick="myfun()" checked></td>
+            {% else %}
+            <td><input type="checkbox" name="share" id="myCheck" style="width:200px;" onclick="myfun()"></td>
+            {% endif %}
         </tr>
         <tr>
             <th>PickUp</th>
@@ -85,4 +89,12 @@
 <!-- <a href="\profile"> Save </a> -->
 </form>
 </body>
+<!-- <script>
+    function myfun(){
+      var checkBox = document.getElementById("myCheck");
+      if (checkBox.checked == true){
+      }else{
+      }
+    }
+</script> -->
 </html>
