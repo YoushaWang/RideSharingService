@@ -8,9 +8,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 
 # Create your views here.
-
 def index(request):
-    # return HttpResponse("Hello, world. You're at the polls index.")
     return render(request,'index.html')
 
 #---------basic page----------
@@ -209,23 +207,27 @@ def order_detail_pk(request,pk):
             fail_silently=False,
             )
         # about share
-        # if confirmed ride, obtain extra information
-        # r=Ride.objects.filter(id=pk).first()
-        # if confirmed ride, obtain extra information
-        # d=User.objects.filter(username=r.driver).first()
-        s=User.objects.filter(username=r.sharer).first()   #why does not work?
-        # d=User.objects.filter(username=r.driver).first()
-        # driver_detail=UserDetail.objects.filter(username=d).first()   #why does not work?
-        share_people = UserDetail.objects.filter(username=s).first()
-        if share_people:
+        # only one sharer version
+        # s=User.objects.filter(username=r.sharer).first()
+        # share_people = UserDetail.objects.filter(username=s).first()
+        # if share_people:
+        #     send_mail(
+        #         'Update msg for a ride',
+        #         'your sharing ride has been comfirmed by a driver',
+        #         'temp_for_project@outlook.com',
+        #         [share_people.email],
+        #         fail_silently=False,
+        #         )
+        # multiple sharer version
+        sharers=r.multiSharer
+        for s in sharers:
             send_mail(
                 'Update msg for a ride',
                 'your sharing ride has been comfirmed by a driver',
                 'temp_for_project@outlook.com',
-                [share_people.email],
+                [s.email],
                 fail_silently=False,
                 )
-        # return render(request,'order_detail.html',{'r':r})
         return redirect("driver_confirmed_ride")
     else:
         return render(request,'order_detail.html',{'r':r})
@@ -275,8 +277,10 @@ def rider_view_request(request):
         # doing things here
         my_rides_open=Ride.objects.filter(status="OPEN",owner=request.user).all()
         my_rides_confirm=Ride.objects.filter(status="COMFIRM",owner=request.user).all()
-        shared_rides_open=Ride.objects.filter(status="OPEN",sharer=request.user).all()
-        shared_rides_confirm=Ride.objects.filter(status="COMFIRM",sharer=request.user).all()
+        shared_rides_open=Ride.objects.filter(status="OPEN",multiSharer__in=[curr]).all()
+        shared_rides_confirm=Ride.objects.filter(status="COMFIRM",multiSharer__in=[curr]).all()
+        # shared_rides_open=Ride.objects.filter(status="OPEN",sharer=request.user).all()
+        # shared_rides_confirm=Ride.objects.filter(status="COMFIRM",sharer=request.user).all()
         return render(request,'rider_view_request.html',{'my_ride_open':my_rides_open,'my_ride_confirm':my_rides_confirm,
                                                          'shared_rides_open':shared_rides_open,
                                                          'shared_rides_confirm':shared_rides_confirm})
@@ -284,8 +288,11 @@ def rider_view_request(request):
 @login_required(login_url='loginPage')
 def rider_order_detail_pk(request,pk):
     r=Ride.objects.filter(id=pk).first()
-    if r.sharer:    # if there is sharer
-        return render(request,'sharer_order_detail.html',{'r':r})
+    # if r.sharer:    # if there is sharer
+    #     return render(request,'sharer_order_detail.html',{'r':r})
+    if r.multiSharer:    # if there is sharer
+        multi_s = r.multiSharer.all()
+        return render(request,'sharer_order_detail.html',{'r':r,'multi_s':multi_s})
     else:
         return render(request,'rider_order_detail.html',{'r':r})
 
@@ -361,14 +368,24 @@ def sharer_find_share_rides(request):
 @login_required(login_url='loginPage')
 def sharer_join_ride(request,pk,sharer_num):
     r=Ride.objects.filter(id=pk).first()
+    s=UserDetail.objects.filter(username=request.user).first()
     if request.method == 'POST':
-        messages.info(request,"Success!")
-        r.sharer=request.user.username
-        r.sharer_num=sharer_num
-        r.capacity=r.capacity+sharer_num
-        r.ifShare=False
-        r.save()
-        return render(request,'sharer_order_detail.html',{'r':r})
+        ifjoined = Ride.objects.filter(id=pk,multiSharer__in=[s]).first()
+        if ifjoined:
+            messages.info(request,"You have already joined this ride")
+            return render(request,'sharer_order_detail.html',{'r':r})
+        else:
+            r.multiSharer.add(s)
+            if r.sharer == "":
+                r.sharer = request.user.username
+            else:
+                r.sharer += "," + request.user.username
+            r.sharer_num=sharer_num
+            r.capacity=r.capacity+sharer_num
+        # r.ifShare=False
+            r.save()
+            messages.info(request,"Success!")
+            return render(request,'sharer_order_detail.html',{'r':r})
     else:
         return render(request,'sharer_join_ride.html',{'r':r})
 

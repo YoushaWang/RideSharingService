@@ -21,30 +21,6 @@ STATUS=(
     ("COMFIRM","COMFIRM"),
     ("COMPLETE","COMPLETE"),
 )
-
-class Ride(models.Model):
-    #     #people
-    #basic info
-    owner = models.ForeignKey(User, on_delete=models.CASCADE,default="")
-    rider_num=models.PositiveIntegerField(default=1)
-    capacity=models.PositiveIntegerField(default=1)
-    #added info
-    driver = models.CharField(max_length=20,null=True,default="")
-    #share info
-    ifShare=models.BooleanField(default=False)
-    sharer = models.CharField(max_length=20,null=True,default="")
-    sharer_num=models.PositiveIntegerField(default=0)
-    #place & time & info
-    pickup=models.CharField(max_length=100,default="NONE")
-    whereto=models.CharField(max_length=100,default="NONE")
-    schedule=models.DateTimeField(auto_now_add=True)
-    extraInfo=models.CharField(max_length=200,default="NONE")
-    car_type=models.CharField(max_length = 20, choices = TYPE_CHOICES, default = 'SUV')
-    #status
-    status=models.CharField(max_length = 20, choices = STATUS, default = 'OPEN')
-    def __str__(self):
-        return self.owner.username
-
 class UserDetail(models.Model):
     username = models.OneToOneField(User, on_delete = models.CASCADE,default="")
     email=models.EmailField(max_length = 100,null=True,blank=True)
@@ -60,3 +36,29 @@ class UserDetail(models.Model):
     capacity=models.PositiveIntegerField(default=1,null=True,blank=True)
     def __str__(self):
         return self.username.username
+        
+class Ride(models.Model):
+    #     #people
+    #basic info
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,default="")
+    rider_num=models.PositiveIntegerField(default=1)
+    capacity=models.PositiveIntegerField(default=1)
+    #added info
+    driver = models.CharField(max_length=20,null=True,default="")
+    #share info
+    ifShare=models.BooleanField(default=False)
+    multiSharer = models.ManyToManyField(UserDetail,related_name='multiSharer', blank=True)
+    sharer = models.CharField(max_length=20,null=True,default="")
+    sharer_num=models.PositiveIntegerField(default=0)
+    #place & time & info
+    pickup=models.CharField(max_length=100,default="NONE")
+    whereto=models.CharField(max_length=100,default="NONE")
+    schedule=models.DateTimeField(auto_now_add=True)
+    extraInfo=models.CharField(max_length=200,default="NONE")
+    car_type=models.CharField(max_length = 20, choices = TYPE_CHOICES, default = 'SUV')
+    #status
+    status=models.CharField(max_length = 20, choices = STATUS, default = 'OPEN')
+    def __str__(self):
+        return self.owner.username
+
+
