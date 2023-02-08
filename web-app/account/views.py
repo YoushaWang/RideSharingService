@@ -401,6 +401,11 @@ def sharer_edit_request(request,pk):
     schedule=request.POST.get('schedule')
     car_type=request.POST.get('car_type')
     extraInfo=request.POST.get('extraInfo')
+    share=request.POST.getlist('share')
+    if share==["on"]:
+        ifShare=True
+    else:
+        ifShare=False
     if request.method=='POST':
 
         tmp=curr.sharer_num #previous sharer number
@@ -418,6 +423,7 @@ def sharer_edit_request(request,pk):
             curr.car_type=car_type
         if extraInfo:
             curr.extraInfo=extraInfo
+        curr.ifShare=ifShare
         curr.save()
         messages.info(request,"Success!")
         return redirect("rider_view_request")

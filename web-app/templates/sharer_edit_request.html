@@ -41,6 +41,15 @@
             <th>Number of Sharer</th>
             <td><input type="number" name="sharer_num" value="{{curr.sharer_num}}" max="10" style="width:200px;"></td>
         </tr>
+        <tr>
+            <th>Want to Share?</th>
+            {% if curr.ifShare %}
+            <td><input type="checkbox" name="share" id="myCheck" style="width:200px;" onclick="myfun()" checked></td>
+            {% else %}
+            <td><input type="checkbox" name="share" id="myCheck" style="width:200px;" onclick="myfun()"></td>
+            {% endif %}
+        </tr>
+        <tr>
             <th>PickUp</th>
             <td><input type="text" name="pickup" value="{{curr.pickup}}" style="width:200px;height: 50px;"></td>
         </tr>
