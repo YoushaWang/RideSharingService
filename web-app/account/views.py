@@ -291,7 +291,8 @@ def rider_order_detail_pk(request,pk):
     r=Ride.objects.filter(id=pk).first()
     # if r.sharer:    # if there is sharer
     #     return render(request,'sharer_order_detail.html',{'r':r})
-    if r.sharer:    # if there is sharer
+    # if r.sharer:    # if there is sharer
+    if r.owner!=request.user:
         multi_s = r.multiSharer.all()
         return render(request,'sharer_order_detail.html',{'r':r,'multi_s':multi_s})
     else:
@@ -407,11 +408,9 @@ def sharer_edit_request(request,pk):
     else:
         ifShare=False
     if request.method=='POST':
-
         tmp=curr.sharer_num #previous sharer number
         curr.capacity=curr.capacity+int(sharer_num)-tmp
         curr.sharer_num=int(sharer_num)
-
             # curr.sharer_num=sharer_num
         if pickup:
             curr.pickup=pickup

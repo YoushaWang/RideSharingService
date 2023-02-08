@@ -40,6 +40,7 @@
             <th>Car type</th>
             <th>owner</th>
             <th>People num</th>
+            <th>if share</th>
             <th>status</th>
             <th>  </th>
         </tr>
@@ -52,6 +53,7 @@
             <th>{{r.car_type}}</th>
             <th>{{r.owner.username}}</th>
             <th>{{r.capacity}}</th>
+            <th>{{r.ifShare}}</th>
             <th>{{r.status}}</th>
             <th> <a href="{% url 'order_detail_pk' r.id %}">Detail</a></th>
             <!-- <th><button type="submit" >Detail</button></th> -->
@@ -66,6 +68,7 @@
             <th>{{r.car_type}}</th>
             <th>{{r.owner.username}}</th>
             <th>{{r.capacity}}</th>
+            <th>{{r.ifShare}}</th>
             <th>{{r.status}}</th>
             <th> <a href="{% url 'order_detail_pk' r.id %}">Detail</a></th>
             <!-- <th><button type="submit" >Detail</button></th> -->
